@@ -1,4 +1,4 @@
-
+package reseau;
 
 public class Territoire {
 
