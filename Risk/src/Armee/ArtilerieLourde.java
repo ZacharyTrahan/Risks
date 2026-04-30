@@ -1,4 +1,4 @@
 package Armee;
 
-public class ArtilerieLourde {
+public class ArtilerieLourde extends Armee {
 }

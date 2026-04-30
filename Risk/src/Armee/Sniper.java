@@ -1,4 +1,4 @@
 package Armee;
 
-public class Sniper {
+public class Sniper extends Armee {
 }

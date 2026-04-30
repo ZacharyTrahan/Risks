@@ -1,4 +1,4 @@
 package Armee;
 
-public class Infanterie {
+public class Infanterie extends Armee {
 }
