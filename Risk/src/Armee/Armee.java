@@ -1,5 +1,7 @@
 package Armee;
 
+import reseau.Territoire;
+
 public abstract class Armee {
 
     protected int force;
@@ -38,5 +40,10 @@ public abstract class Armee {
 
 
     }
+
+    public abstract void attaquer(Territoire cible);
+
+    public abstract void defendre();
+
 
 }
