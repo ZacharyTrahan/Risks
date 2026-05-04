@@ -3,17 +3,18 @@ package reseau;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class Territoire implements Serializable, Comparable<Territoire>{
+public class Territoire implements Serializable, Comparable<Territoire> {
 
     private Etat etat;
     private String nom;
     private final static Etat ETAT_BASE = Etat.NEUTRE;
-    private static final long serialVersionUID=1L;
+    private static final long serialVersionUID = 1L;
 
-    public Territoire(String nom){
-        this(nom,ETAT_BASE);
+    public Territoire(String nom) {
+        this(nom, ETAT_BASE);
     }
-    public Territoire(String nom, Etat etat){
+
+    public Territoire(String nom, Etat etat) {
         setEtat(etat);
         this.nom = nom;
     }
@@ -23,6 +24,7 @@ public class Territoire implements Serializable, Comparable<Territoire>{
     }
 
     public void setEtat(Etat etat) {
+        isValid(etat);
         this.etat = etat;
     }
 
@@ -51,6 +53,7 @@ public class Territoire implements Serializable, Comparable<Territoire>{
         return this.nom == autre.nom;
 
     }
+
     @Override
     public String toString() {
         return "Agent{" +
@@ -59,11 +62,20 @@ public class Territoire implements Serializable, Comparable<Territoire>{
                 ", serialVersionUID=" + serialVersionUID +
                 '}';
     }
+
     @Override
     public int hashCode() {
         return Objects.hash(nom);
     }
 
+
+    public boolean isValid(Etat etat) {
+        boolean option = true;
+        if (etat == null) {
+            throw new IllegalArgumentException("etat nulle");
+        }
+        return option;
+    }
 
 
 }
