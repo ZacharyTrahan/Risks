@@ -1,4 +1,5 @@
 package app;
+//Code complet assisté par Gemini
 
 import reseau.*;
 import javax.swing.*;

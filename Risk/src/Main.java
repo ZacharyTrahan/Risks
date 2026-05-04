@@ -1,4 +1,4 @@
-
+//Code complet assisté par Gemini
 import reseau.*;
 
 import java.io.IOException;
