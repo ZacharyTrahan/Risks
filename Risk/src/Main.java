@@ -8,7 +8,7 @@ public class Main {
 
     public static void main(String[] args) {
         // Création du dossier de données s'il n'existe pas
-        File dir = new File("src/donnees");
+        File dir = new File("Risk/src/donnees");
         if (!dir.exists()) dir.mkdirs();
 
         Carte maCarte = new Carte();
@@ -33,7 +33,7 @@ public class Main {
             maCarte.lierTerritoire(allemagne, italie);
 
             // Sauvegarde de la carte initiale
-            maCarte.sauvegarder("src/donnees/map_europe.ser");
+            maCarte.sauvegarder("Risk/src/donnees/map_europe.ser");
             System.out.println("Carte sauvegardée avec succès !");
 
             System.out.println("=== LOGIQUE DE JEU ===");

@@ -138,7 +138,7 @@ public class CarteApp extends JPanel {
     // --- LE MAIN POUR LANCER L'APPLICATION ---
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        String dossier = "src/donnees/";
+        String dossier = "Risk/src/donnees/";
 
         try {
             // 1. Lister les fichiers disponibles
