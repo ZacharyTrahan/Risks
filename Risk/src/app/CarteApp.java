@@ -120,7 +120,7 @@ public class CarteApp extends JPanel {
             frame.setVisible(true);
 
         } catch (Exception e) {
-            System.err.println("Erreur : Impossible de charger la carte. Lancez d'abord MainRisk !");
+            System.err.println("Erreur : Impossible de charger la carte. Lancez d'abord Main!");
         }
     }
 }

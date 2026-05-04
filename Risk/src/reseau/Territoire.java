@@ -3,7 +3,7 @@ package reseau;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class Territoire implements Serializable {
+public class Territoire implements Serializable, Comparable<Territoire>{
 
     private Etat etat;
     private String nom;

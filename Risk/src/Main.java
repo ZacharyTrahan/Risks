@@ -20,17 +20,17 @@ public class Main {
         Territoire italie = new Territoire("Italie");
 
         // 2. Ajout au réseau
-        maCarte.ajouterIndividu(france);
-        maCarte.ajouterIndividu(espagne);
-        maCarte.ajouterIndividu(allemagne);
-        maCarte.ajouterIndividu(italie);
+        maCarte.ajouterTerritoire(france);
+        maCarte.ajouterTerritoire(espagne);
+        maCarte.ajouterTerritoire(allemagne);
+        maCarte.ajouterTerritoire(italie);
 
         // 3. Création des frontières (liens)
         try {
-            maCarte.lierIndividus(france, espagne);
-            maCarte.lierIndividus(france, allemagne);
-            maCarte.lierIndividus(france, italie);
-            maCarte.lierIndividus(allemagne, italie);
+            maCarte.lierTerritoire(france, espagne);
+            maCarte.lierTerritoire(france, allemagne);
+            maCarte.lierTerritoire(france, italie);
+            maCarte.lierTerritoire(allemagne, italie);
 
             // Sauvegarde de la carte initiale
             maCarte.sauvegarder("src/donnees/map_europe.ser");
