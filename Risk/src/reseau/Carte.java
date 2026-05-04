@@ -67,6 +67,8 @@ public class Carte implements java.io.Serializable {
         }
     }
 
+    //logique de méthode pour trouver la range nécessaire pour attaquer.
+
     public static Carte charger(String nomFichier) throws IOException, ClassNotFoundException {
         if (nomFichier == null || nomFichier.trim().isEmpty()){
             throw new IllegalArgumentException("Le nom du fichier doit exister, là il n'y a rien!");
