@@ -33,6 +33,8 @@ public class Territoire implements Serializable {
     public void setNom(String nom) {
         this.nom = nom;
     }
+
+
     public int compareTo(Territoire autre) {
         if (autre == null) {
             throw new NullPointerException("Impossible de comparer avec un objet null");
@@ -61,5 +63,7 @@ public class Territoire implements Serializable {
     public int hashCode() {
         return Objects.hash(nom);
     }
+
+
 
 }
