@@ -15,14 +15,14 @@ public class Carte implements java.io.Serializable {
         return Collections.unmodifiableMap(connexions);
     }
 
-    public void ajouterIndividu(Territoire individu) {
-        if (individu == null){
+    public void ajouterTerritoire(Territoire territoire) {
+        if (territoire == null){
             throw new IllegalArgumentException("Impossible d'ajouter un Agent null!");
         }
-        this.connexions.put(individu, new TreeSet<Territoire>());
+        this.connexions.put(territoire, new TreeSet<Territoire>());
     }
 
-    public void lierIndividus(Territoire a, Territoire b) throws NoSuchElementException, IllegalArgumentException {
+    public void lierTerritoire(Territoire a, Territoire b) throws NoSuchElementException, IllegalArgumentException {
         // les territoires doivent exister!
         if (a == null || b == null || a.equals(b)){
             throw new IllegalArgumentException("Les agents doivent être différent et non null");
@@ -46,7 +46,7 @@ public class Carte implements java.io.Serializable {
         connexions.get(b).remove(a);
     }
 
-    public void retirerIndividu(Territoire cible) {
+    public void retirerTerritoire(Territoire cible) {
         if (!connexions.containsKey(cible)){
             throw new NoSuchElementException("Le territoire cible n'existe pas!");
         }
@@ -70,27 +70,6 @@ public class Carte implements java.io.Serializable {
             }
         }
         return superPropagateurs;
-    }
-
-    public Set<Territoire> simulerPropagation(Territoire foyer, int niveaux) {
-        //une des erreurs qui met arriver lors des tests.
-        if (!connexions.containsKey(foyer)){
-            throw new NoSuchElementException("Le foyer n'a pas de clé!");
-        }
-
-        //on utilise un set
-        Set<Territoire> visites = new HashSet<>();
-
-        if (foyer == null || niveaux < 0){
-            return visites;
-        }
-        propager(foyer, niveaux, visites);
-
-        return visites;
-    }
-
-    private  void propager(Territoire actuel, int distance, Set<Territoire> visites) {
-       // la logique se fait dans les classes armee
     }
 
     public void sauvegarder(String nomFichier) throws IOException {
