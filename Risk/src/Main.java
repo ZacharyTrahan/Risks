@@ -37,6 +37,25 @@ public class Main {
             System.out.println("Carte sauvegardée avec succès !");
 
             System.out.println("=== LOGIQUE DE JEU ===");
+
+            System.out.println("Le monde est en guerre.\n" +
+                    "Chacun pour soi, aucune pitié.\n" +
+                    "\n" +
+                    "Prenez vos territoires, attaquez sans hésiter…\n" +
+                    "et dominez la carte.\n" +
+                    "\n" +
+                    "Que le meilleur stratège gagne.");
+            Thread.sleep(5000);
+            System.out.println("avant de ce lancer dans la parti, voici un résumer du déroulement:\n" +
+                    "\n-01)Objectif du jeu : Chaque joueur doit réaliser son objectif" +
+                    " \nsecret ou conquérir le monde entier selon la variante choisie. " +
+                    "-\n2)Mécanique principale : Les joueurs choisissent une couleur, prennent leurs " +
+                    "\narmées et doivent remplir leur mission secrète ou éliminer tous leurs adversaires." +
+                    "\n-3)Renforts : Les joueurs peuvent obtenir des renforts en fonction de la taille de leurs territoires et des cartes de renforts." +
+                    "\n-4)Combats : Les joueurs lancent des dés pour attaquer et " +
+                    "\ndéfendre leurs territoires, avec des combats qui peuvent" +
+                    " \nmener à la conquête de territoires. ");
+
             // (À toi de remplir : Logique de tour, choix des joueurs, etc.)
             System.out.println("En attente des actions joueurs...");
 
