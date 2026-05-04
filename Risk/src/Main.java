@@ -14,8 +14,8 @@ public class Main {
         Carte maCarte = new Carte();
 
         // 1. Création de quelques territoires
-        Territoire france = new Territoire("France");
-        Territoire espagne = new Territoire("Espagne");
+        Territoire france = new Territoire("France",Etat.AXE);
+        Territoire espagne = new Territoire("Espagne",Etat.ALLIE);
         Territoire allemagne = new Territoire("Allemagne");
         Territoire italie = new Territoire("Italie");
 
@@ -45,7 +45,7 @@ public class Main {
                     "et dominez la carte.\n" +
                     "\n" +
                     "Que le meilleur stratège gagne.");
-            Thread.sleep(5000);
+            Thread.sleep(1000);
             System.out.println("avant de ce lancer dans la parti, voici un résumer du déroulement:\n" +
                     "\n-01)Objectif du jeu : Chaque joueur doit réaliser son objectif" +
                     " \nsecret ou conquérir le monde entier selon la variante choisie. " +
@@ -58,6 +58,7 @@ public class Main {
 
             // (À toi de remplir : Logique de tour, choix des joueurs, etc.)
             System.out.println("En attente des actions joueurs...");
+
 
         } catch (Exception e) {
             e.printStackTrace();

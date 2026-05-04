@@ -5,6 +5,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.util.*;
 
 /**
@@ -135,41 +136,44 @@ public class CarteApp extends JPanel {
 
     // --- LE MAIN POUR LANCER L'APPLICATION ---
     public static void main(String[] args) {
-        // 1. Création d'une carte de test
-        Carte riskMap = new Carte();
-
-        Territoire t1 = new Territoire("France", Etat.ALLIE);
-        Territoire t2 = new Territoire("Espagne", Etat.ALLIE);
-        Territoire t3 = new Territoire("Allemagne", Etat.AXE);
-        Territoire t4 = new Territoire("Italie", Etat.NEUTRE);
-        Territoire t5 = new Territoire("UK", Etat.NEUTRE);
-
-        riskMap.ajouterTerritoire(t1);
-        riskMap.ajouterTerritoire(t2);
-        riskMap.ajouterTerritoire(t3);
-        riskMap.ajouterTerritoire(t4);
-        riskMap.ajouterTerritoire(t5);
+        Scanner sc = new Scanner(System.in);
+        String dossier = "src/donnees/";
 
         try {
-            riskMap.lierTerritoire(t1, t2);
-            riskMap.lierTerritoire(t1, t3);
-            riskMap.lierTerritoire(t1, t4);
-            riskMap.lierTerritoire(t3, t4);
-            riskMap.lierTerritoire(t1, t5);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+            // 1. Lister les fichiers disponibles
+            File dir = new File(dossier);
+            File[] fichiers = dir.listFiles((d, name) -> name.endsWith(".ser"));
 
-        // 2. Lancement de la fenêtre
-        SwingUtilities.invokeLater(() -> {
-            JFrame frame = new JFrame("Risk - Visualiseur de Map");
+            if (fichiers == null || fichiers.length == 0) {
+                System.out.println("Aucun fichier de réseau (.ser) trouvé dans " + dossier);
+                return;
+            }
+
+            System.out.println("=== Fichiers de réseaux disponibles ===");
+            for (int i = 0; i < fichiers.length; i++) {
+                System.out.println((i + 1) + ". " + fichiers[i].getName());
+            }
+
+            // 2. Demander le choix à l'utilisateur
+            System.out.print("\nQuel fichier voulez-vous charger ? (entrez le numéro) : ");
+            int choix = sc.nextInt();
+            String nomFichierSelectionne = fichiers[choix - 1].getPath();
+
+            // 3. Charger et afficher
+            Carte reseauALire = Carte.charger(nomFichierSelectionne);
+
+            JFrame frame = new JFrame("Visualisation Épidémique - " + nomFichierSelectionne);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.add(new CarteApp(riskMap));
+            frame.add(new CarteApp(reseauALire));
             frame.pack();
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
 
-            System.out.println("Application démarrée ! (À toi de remplir la suite)");
-        });
+        } catch (Exception e) {
+            System.err.println("Erreur : Assurez-vous d'entrer un numéro valide.");
+            e.printStackTrace();
+        } finally {
+            // sc.close(); // Optionnel selon ton flux de travail
+        }
     }
 }
