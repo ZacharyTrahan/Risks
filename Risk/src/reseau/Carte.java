@@ -56,22 +56,6 @@ public class Carte implements java.io.Serializable {
         connexions.values().forEach(treeSet -> treeSet.remove(cible));
     }
 
-    public List<Territoire> identifierSuperPropagateurs(int seuil) {
-        if (seuil < 0){
-            throw new IllegalArgumentException("Le seuil est négatif!");
-        }
-        //c'est la future liste de tout les territoires qui sont des superPropagateurs.
-        List<Territoire> superPropagateurs = new ArrayList<>();
-        // on définit l'objet qu'on manipule et pour parcourir une map on a besions de entrySet() et Entry. entree parce qu'on manipule l'Entry de connexions.
-        for (Map.Entry<Territoire, TreeSet<Territoire>> entree : connexions.entrySet()){
-
-            if (entree.getValue() != null && entree.getValue().size() >= seuil){
-                superPropagateurs.add(entree.getKey());
-            }
-        }
-        return superPropagateurs;
-    }
-
     public void sauvegarder(String nomFichier) throws IOException {
         if (nomFichier == null || nomFichier.trim().isEmpty()){
             throw new IllegalArgumentException("Le nom du fichier doit exister, là il n'y a rien!");
