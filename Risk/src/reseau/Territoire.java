@@ -13,7 +13,7 @@ public class Territoire implements Serializable, Comparable<Territoire>{
     public Territoire(String nom){
         this(nom,ETAT_BASE);
     }
-    public Territoire(String nom, Etat etatBase){
+    public Territoire(String nom, Etat etat){
         setEtat(etat);
         this.nom = nom;
     }
