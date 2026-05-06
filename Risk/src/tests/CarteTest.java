@@ -38,7 +38,7 @@ public class CarteTest {
     public void ajouterTerritoire(){
         reseauCarte.ajouterTerritoire(T1);
         assertTrue(reseauCarte.getConnexions().containsKey(T1));
-        assertEquals(0, reseauCarte.getConnexions().size());
+        assertEquals(0, reseauCarte.getConnexions().get(T1).size());
     }
 
     @Test
