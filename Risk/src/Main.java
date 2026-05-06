@@ -14,10 +14,11 @@ public class Main {
         Carte maCarte = new Carte();
 
         // 1. Création de quelques territoires
-        Territoire france = new Territoire("France",Etat.AXE);
-        Territoire espagne = new Territoire("Espagne",Etat.ALLIE);
+        Territoire france = new Territoire("France",Etat.JOUEUR1);
+        Territoire espagne = new Territoire("Espagne",Etat.JOUEUR2);
         Territoire allemagne = new Territoire("Allemagne");
         Territoire italie = new Territoire("Italie");
+        Territoire RoyaumeUni = new Territoire("Royaume-Uni");
 
         // 2. Ajout au réseau
         maCarte.ajouterTerritoire(france);
