@@ -163,7 +163,7 @@ public class CarteApp extends JPanel {
             // 3. Charger et afficher
             Carte reseauALire = Carte.charger(nomFichierSelectionne);
 
-            JFrame frame = new JFrame("Visualisation Épidémique - " + nomFichierSelectionne);
+            JFrame frame = new JFrame("Visualisation de la carte de Jeu Risk - " + nomFichierSelectionne);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.add(new CarteApp(reseauALire));
             frame.pack();
