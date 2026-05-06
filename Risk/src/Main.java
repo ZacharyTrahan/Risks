@@ -14,7 +14,7 @@ public class Main {
         Carte maCarte = new Carte();
 
         // 1. Création de quelques territoires
-        //si temps rendre la creation de pays en lecture de Fichier
+        //si temps rendre la creation de pays en lecture de Fichier ou faire un tableau
         Territoire france = new Territoire("France",Etat.JOUEUR1);
         Territoire espagne = new Territoire("Espagne",Etat.JOUEUR2);
         Territoire allemagne = new Territoire("Allemagne");
@@ -44,7 +44,13 @@ public class Main {
 
         // 3. Création des frontières (liens)
         try {
+            maCarte.lierTerritoire(canada,france);
+            maCarte.lierTerritoire(canada,usa);
+            maCarte.lierTerritoire(usa,france);
+            maCarte.lierTerritoire(usa,royaumeUni);
             maCarte.lierTerritoire(france, espagne);
+            maCarte.lierTerritoire(royaumeUni,france);
+            maCarte.lierTerritoire(royaumeUni,allemagne);
             maCarte.lierTerritoire(france, allemagne);
             maCarte.lierTerritoire(france, italie);
             maCarte.lierTerritoire(france, suisse);
