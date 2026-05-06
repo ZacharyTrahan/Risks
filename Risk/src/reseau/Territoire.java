@@ -22,8 +22,8 @@ public class Territoire implements Serializable, Comparable<Territoire> {
 
     public Territoire(String nom, Etat etat) {
         setEtat(etat);
-        this.nBInfanterie = ((int) (Math.random() * (INTERVALMAX - INTERVALMIN + 1)) + INTERVALMIN);
         this.nom = nom;
+        setnBInfanterie(((int) (Math.random() * (INTERVALMAX - INTERVALMIN + 1)) + INTERVALMIN));
     }
 
     public Etat getEtat() {
@@ -37,6 +37,10 @@ public class Territoire implements Serializable, Comparable<Territoire> {
 
     public int getnBInfanterie() {
         return nBInfanterie;
+    }
+
+    public void setnBInfanterie(int nBInfanterie) {
+        this.nBInfanterie = nBInfanterie;
     }
 
     public String getNom() {

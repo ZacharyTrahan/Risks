@@ -6,6 +6,7 @@ import java.util.*;
 public class Carte implements java.io.Serializable {
 
     private final Map<Territoire, TreeSet<Territoire>> connexions;
+    private static final int MINIMAL_INFANTERIE = 2;
 
     public Carte() {
         this.connexions = new HashMap<>();
@@ -56,20 +57,34 @@ public class Carte implements java.io.Serializable {
         connexions.values().forEach(treeSet -> treeSet.remove(cible));
     }
 
-    private void attaquer(Territoire attaquant, Territoire defendant) {
+    public void attaquer(Territoire attaquant, Territoire defendant) {
         if (connexions.containsKey(attaquant) && connexions.containsKey(defendant)) {
-            if ((!connexions.get(attaquant).contains(defendant))) {
-                throw new IllegalArgumentException("L'attaquant :" + attaquant.getNom() + " doit avoir un lien avec le défenseur  :" + defendant.getNom());
-            }
-            else {
-                if (attaquant.)
+            if (!attaquant.getEtat().equals(defendant.getEtat())) {
+                if ((!connexions.get(attaquant).contains(defendant))) {
+                    throw new IllegalArgumentException("L'attaquant :" + attaquant.getNom() + " doit avoir un lien avec le défenseur  :" + defendant.getNom());
+                } else {
+                    if (attaquant.getnBInfanterie() <= 1) {
+                        throw new IllegalArgumentException("L'attaquant :" + attaquant.getNom() + "doit avoir au minimum : " + MINIMAL_INFANTERIE);
+                    } else {
+                        if (attaquant.getnBInfanterie() > defendant.getnBInfanterie()) {
+                            attaquant.setnBInfanterie(1);
+                            defendant.setnBInfanterie(((attaquant.getnBInfanterie() - defendant.getnBInfanterie()) - 1))
+                            ;
+                            defendant.setEtat(attaquant.getEtat());
+                        }
+                    }
 
+
+                }
+
+            } else {
+                throw new IllegalArgumentException("Tu ne peux attaquer ton propre pays!");
             }
+
 
         }
-
-
     }
+
 
     public void sauvegarder(String nomFichier) throws IOException {
         if (nomFichier == null || nomFichier.trim().isEmpty()) {
