@@ -2,6 +2,7 @@ package app;
 //Code complet assisté par Gemini
 
 import reseau.*;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -92,13 +93,13 @@ public class CarteApp extends JPanel {
                 couleurCercle = new Color(52, 152, 219); // Bleu
             } else if (t.getEtat() == Etat.JOUEUR2) {
                 couleurCercle = new Color(231, 76, 60);  // Rouge
-            } else if (t.getEtat()== Etat.JOUEUR3) {
-                couleurCercle=new Color(158,253,56); // Citron vert
-            } else if (t.getEtat()== Etat.JOUEUR4) {
+            } else if (t.getEtat() == Etat.JOUEUR3) {
+                couleurCercle = new Color(158, 253, 56); // Citron vert
+            } else if (t.getEtat() == Etat.JOUEUR4) {
                 couleurCercle = new Color(108, 0, 255); // Violet
-            }else if (t.getEtat() == Etat.JOUEUR5) {
+            } else if (t.getEtat() == Etat.JOUEUR5) {
                 couleurCercle = new Color(255, 0, 212);  // Rose
-            }else if (t.getEtat() == Etat.JOUEUR6) {
+            } else if (t.getEtat() == Etat.JOUEUR6) {
                 couleurCercle = new Color(255, 230, 0);  // Jaune
             } else {
                 couleurCercle = Color.DARK_GRAY;         // Neutre
@@ -145,44 +146,6 @@ public class CarteApp extends JPanel {
 
     // --- LE MAIN POUR LANCER L'APPLICATION ---
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        String dossier = "Risk/src/donnees/";
 
-        try {
-            // 1. Lister les fichiers disponibles
-            File dir = new File(dossier);
-            File[] fichiers = dir.listFiles((d, name) -> name.endsWith(".ser"));
-
-            if (fichiers == null || fichiers.length == 0) {
-                System.out.println("Aucun fichier de réseau (.ser) trouvé dans " + dossier);
-                return;
-            }
-
-            System.out.println("=== Fichiers de réseaux disponibles ===");
-            for (int i = 0; i < fichiers.length; i++) {
-                System.out.println((i + 1) + ". " + fichiers[i].getName());
-            }
-
-            // 2. Demander le choix à l'utilisateur
-            System.out.print("\nQuel fichier voulez-vous charger ? (entrez le numéro) : ");
-            int choix = sc.nextInt();
-            String nomFichierSelectionne = fichiers[choix - 1].getPath();
-
-            // 3. Charger et afficher
-            Carte reseauALire = Carte.charger(nomFichierSelectionne);
-
-            JFrame frame = new JFrame("Visualisation de la carte de Jeu Risk - " + nomFichierSelectionne);
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.add(new CarteApp(reseauALire));
-            frame.pack();
-            frame.setLocationRelativeTo(null);
-            frame.setVisible(true);
-
-        } catch (Exception e) {
-            System.err.println("Erreur : Assurez-vous d'entrer un numéro valide.");
-            e.printStackTrace();
-        } finally {
-            // sc.close(); // Optionnel selon ton flux de travail
-        }
     }
 }
