@@ -9,13 +9,20 @@ public class Territoire implements Serializable, Comparable<Territoire> {
     private String nom;
     private final static Etat ETAT_BASE = Etat.NEUTRE;
     private static final long serialVersionUID = 1L;
+    private int nBInfanterie;
+    private static final int INTERVALMIN = 3;
+    private static final int INTERVALMAX = 5;
 
-    public Territoire(String nom) {
+
+
+
+    public Territoire(String nom, int nBInfanterie) {
         this(nom, ETAT_BASE);
     }
 
     public Territoire(String nom, Etat etat) {
         setEtat(etat);
+        this.nBInfanterie = ((int) (Math.random() * (INTERVALMAX - INTERVALMIN + 1)) + INTERVALMIN);
         this.nom = nom;
     }
 
