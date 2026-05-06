@@ -55,7 +55,13 @@ public class Carte implements java.io.Serializable {
         // on retire l'Agent de tous les treeSet des autres territoire. celui à gauche c'est l'action et à droite c'est la précision de quoi faire avec le treeSet qu'on a trouvé.
         connexions.values().forEach(treeSet -> treeSet.remove(cible));
     }
-    private void attaquer(Territoire actuel, int distance, Set<Territoire> visites) {
+    private void attaquer(Territoire attaquant, Territoire defendant) {
+        if (connexions.containsKey(attaquant) && connexions.containsKey(defendant) ) {
+            if((!connexions.get(attaquant).contains(defendant))){
+                throw new IllegalArgumentException("L'attaquant :"+   + " doit avoir un lien avec le défenseur ");
+            }
+        }
+
 
     }
 
