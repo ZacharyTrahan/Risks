@@ -55,6 +55,9 @@ public class Carte implements java.io.Serializable {
         // on retire l'Agent de tous les treeSet des autres territoire. celui à gauche c'est l'action et à droite c'est la précision de quoi faire avec le treeSet qu'on a trouvé.
         connexions.values().forEach(treeSet -> treeSet.remove(cible));
     }
+    private void attaquer(Territoire actuel, int distance, Set<Territoire> visites) {
+
+    }
 
     public void sauvegarder(String nomFichier) throws IOException {
         if (nomFichier == null || nomFichier.trim().isEmpty()){
