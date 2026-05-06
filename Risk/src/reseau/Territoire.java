@@ -16,7 +16,7 @@ public class Territoire implements Serializable, Comparable<Territoire> {
 
 
 
-    public Territoire(String nom, int nBInfanterie) {
+    public Territoire(String nom) {
         this(nom, ETAT_BASE);
     }
 
@@ -33,6 +33,10 @@ public class Territoire implements Serializable, Comparable<Territoire> {
     public void setEtat(Etat etat) {
         isValid(etat);
         this.etat = etat;
+    }
+
+    public int getnBInfanterie() {
+        return nBInfanterie;
     }
 
     public String getNom() {

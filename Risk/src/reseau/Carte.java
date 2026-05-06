@@ -62,6 +62,7 @@ public class Carte implements java.io.Serializable {
                 throw new IllegalArgumentException("L'attaquant :" + attaquant.getNom() + " doit avoir un lien avec le défenseur  :" + defendant.getNom());
             }
             else {
+                if (attaquant.)
 
             }
 
