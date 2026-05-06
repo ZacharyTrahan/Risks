@@ -68,8 +68,8 @@ public class Carte implements java.io.Serializable {
                     } else {
                         if (attaquant.getnBInfanterie() > defendant.getnBInfanterie()) {
                             attaquant.setnBInfanterie(1);
-                            defendant.setnBInfanterie(((attaquant.getnBInfanterie() - defendant.getnBInfanterie()) - 1))
-                            ;
+                            defendant.setnBInfanterie(((attaquant.getnBInfanterie() - defendant.getnBInfanterie()) - 1));
+
                             defendant.setEtat(attaquant.getEtat());
                         }
                     }
