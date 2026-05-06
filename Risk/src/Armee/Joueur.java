@@ -9,6 +9,9 @@ public class Joueur {
     protected int nbSniper;
     protected int nbTanks;
 
+    public Joueur(int id) {
+        this.id = id;
+    }
 
     public int getId() {
         return id;
