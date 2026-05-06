@@ -88,10 +88,18 @@ public class CarteApp extends JPanel {
 
             // Choix de la couleur selon l'état
             Color couleurCercle;
-            if (t.getEtat() == Etat.ALLIE) {
+            if (t.getEtat() == Etat.JOUEUR1) {
                 couleurCercle = new Color(52, 152, 219); // Bleu
-            } else if (t.getEtat() == Etat.AXE) {
+            } else if (t.getEtat() == Etat.JOUEUR2) {
                 couleurCercle = new Color(231, 76, 60);  // Rouge
+            } else if (t.getEtat()== Etat.JOUEUR3) {
+                couleurCercle=new Color(158,253,56); // Citron vert
+            } else if (t.getEtat()== Etat.JOUEUR4) {
+                couleurCercle = new Color(108, 0, 255); // Violet
+            }else if (t.getEtat() == Etat.JOUEUR5) {
+                couleurCercle = new Color(255, 0, 212);  // Rose
+            }else if (t.getEtat() == Etat.JOUEUR6) {
+                couleurCercle = new Color(255, 230, 0);  // Jaune
             } else {
                 couleurCercle = Color.DARK_GRAY;         // Neutre
             }
