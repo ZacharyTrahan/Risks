@@ -1,32 +1,60 @@
 //Code complet assisté par Gemini
+
 import reseau.*;
 
 import java.io.IOException;
 import java.io.File;
+import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
         // Création du dossier de données s'il n'existe pas
         File dir = new File("Risk/src/donnees");
         if (!dir.exists()) dir.mkdirs();
 
         Carte maCarte = new Carte();
 
+
         // 1. Création de quelques territoires
         //si temps rendre la creation de pays en lecture de Fichier ou faire un tableau
-        Territoire france = new Territoire("France",Etat.JOUEUR1);
-        Territoire espagne = new Territoire("Espagne",Etat.JOUEUR2);
+        Territoire france = new Territoire("France", Etat.JOUEUR1);
+        Territoire espagne = new Territoire("Espagne", Etat.JOUEUR2);
         Territoire allemagne = new Territoire("Allemagne");
         Territoire italie = new Territoire("Italie");
-        Territoire royaumeUni = new Territoire("Royaume-Uni",Etat.JOUEUR4);
+        Territoire royaumeUni = new Territoire("Royaume-Uni", Etat.JOUEUR4);
         Territoire pologne = new Territoire("Pologne");
-        Territoire russie = new Territoire("Russie",Etat.JOUEUR3);
-        Territoire serbie = new Territoire("Serbie",Etat.JOUEUR5);
+        Territoire russie = new Territoire("Russie", Etat.JOUEUR3);
+        Territoire serbie = new Territoire("Serbie", Etat.JOUEUR5);
         Territoire usa = new Territoire("U.S.A");
-        Territoire canada = new Territoire("Canada",Etat.JOUEUR6);
+        Territoire canada = new Territoire("Canada", Etat.JOUEUR6);
         Territoire chine = new Territoire("Chine");
         Territoire suisse = new Territoire("Suisse");
+
+        //1.1 Création des joueurs
+        boolean serrure = true;
+        do {
+
+            System.out.print("Combien de joueurs êtes vous ? :");
+            int nbJoueur = sc.nextInt();
+            try {
+                if (nbJoueur > 6) {
+                    throw new IllegalArgumentException("Le nombre de maximum de joueurs est de 6.");
+
+                } else {
+                    for (int i = 1; i <= nbJoueur; i++) {
+
+                    }
+
+                }
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+
+
+        } while (serrure);
+
 
         // 2. Ajout au réseau
         maCarte.ajouterTerritoire(france);
@@ -42,15 +70,16 @@ public class Main {
         maCarte.ajouterTerritoire(chine);
         maCarte.ajouterTerritoire(suisse);
 
+
         // 3. Création des frontières (liens)
         try {
-            maCarte.lierTerritoire(canada,france);
-            maCarte.lierTerritoire(canada,usa);
-            maCarte.lierTerritoire(usa,france);
-            maCarte.lierTerritoire(usa,royaumeUni);
+            maCarte.lierTerritoire(canada, france);
+            maCarte.lierTerritoire(canada, usa);
+            maCarte.lierTerritoire(usa, france);
+            maCarte.lierTerritoire(usa, royaumeUni);
             maCarte.lierTerritoire(france, espagne);
-            maCarte.lierTerritoire(royaumeUni,france);
-            maCarte.lierTerritoire(royaumeUni,allemagne);
+            maCarte.lierTerritoire(royaumeUni, france);
+            maCarte.lierTerritoire(royaumeUni, allemagne);
             maCarte.lierTerritoire(france, allemagne);
             maCarte.lierTerritoire(france, italie);
             maCarte.lierTerritoire(france, suisse);
@@ -63,6 +92,7 @@ public class Main {
             maCarte.lierTerritoire(pologne, serbie);
             maCarte.lierTerritoire(russie, serbie);
             maCarte.lierTerritoire(russie, chine);
+
 
             // Sauvegarde de la carte initiale
             maCarte.sauvegarder("Risk/src/donnees/map_europe.ser");
@@ -95,5 +125,9 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+
     }
+
+
 }
