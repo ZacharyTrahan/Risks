@@ -56,7 +56,7 @@ public class Carte implements java.io.Serializable {
         connexions.values().forEach(treeSet -> treeSet.remove(cible));
     }
 
-    private void attaquer(Territoire attaquant, Territoire defendant) {
+   /* private void attaquer(Territoire attaquant, Territoire defendant) {
         if (connexions.containsKey(attaquant) && connexions.containsKey(defendant)) {
             if ((!connexions.get(attaquant).contains(defendant))) {
                 throw new IllegalArgumentException("L'attaquant :" + attaquant.getNom() + " doit avoir un lien avec le défenseur  :" + defendant.getNom());
@@ -70,7 +70,7 @@ public class Carte implements java.io.Serializable {
 
 
     }
-
+*/
     public void sauvegarder(String nomFichier) throws IOException {
         if (nomFichier == null || nomFichier.trim().isEmpty()) {
             throw new IllegalArgumentException("Le nom du fichier doit exister, là il n'y a rien!");
