@@ -1,15 +1,19 @@
 //Code complet assisté par Gemini
 
+import app.CarteApp;
 import reseau.*;
 
+import javax.swing.*;
+import javax.swing.text.html.HTMLDocument;
 import java.io.IOException;
 import java.io.File;
 import java.util.Scanner;
 
 public class Main {
+    public static final Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+
         // Création du dossier de données s'il n'existe pas
         File dir = new File("Risk/src/donnees");
         if (!dir.exists()) dir.mkdirs();
@@ -19,41 +23,18 @@ public class Main {
 
         // 1. Création de quelques territoires
         //si temps rendre la creation de pays en lecture de Fichier ou faire un tableau
-        Territoire france = new Territoire("France", Etat.JOUEUR1);
-        Territoire espagne = new Territoire("Espagne", Etat.JOUEUR2);
+        Territoire france = new Territoire("France");
+        Territoire espagne = new Territoire("Espagne");
         Territoire allemagne = new Territoire("Allemagne");
         Territoire italie = new Territoire("Italie");
-        Territoire royaumeUni = new Territoire("Royaume-Uni", Etat.JOUEUR4);
+        Territoire royaumeUni = new Territoire("Royaume-Uni");
         Territoire pologne = new Territoire("Pologne");
-        Territoire russie = new Territoire("Russie", Etat.JOUEUR3);
-        Territoire serbie = new Territoire("Serbie", Etat.JOUEUR5);
+        Territoire russie = new Territoire("Russie");
+        Territoire serbie = new Territoire("Serbie");
         Territoire usa = new Territoire("U.S.A");
-        Territoire canada = new Territoire("Canada", Etat.JOUEUR6);
+        Territoire canada = new Territoire("Canada");
         Territoire chine = new Territoire("Chine");
         Territoire suisse = new Territoire("Suisse");
-
-        //1.1 Création des joueurs
-        boolean serrure = true;
-        do {
-
-            System.out.print("Combien de joueurs êtes vous ? :");
-            int nbJoueur = sc.nextInt();
-            try {
-                if (nbJoueur > 6) {
-                    throw new IllegalArgumentException("Le nombre de maximum de joueurs est de 6.");
-
-                } else {
-                    for (int i = 1; i <= nbJoueur; i++) {
-
-                    }
-
-                }
-            } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
-            }
-
-
-        } while (serrure);
 
 
         // 2. Ajout au réseau
@@ -119,6 +100,9 @@ public class Main {
                     " \nmener à la conquête de territoires. ");
 
             // (À toi de remplir : Logique de tour, choix des joueurs, etc.)
+            afficherCarte();
+            creationJoueur();
+
             System.out.println("En attente des actions joueurs...");
 
 
@@ -127,6 +111,67 @@ public class Main {
         }
 
 
+    }
+
+    //1.1 Création des joueurs
+    public static void creationJoueur() {
+        boolean serrure = true;
+        do {
+
+            System.out.print("Combien de joueurs êtes vous ? :");
+            int nbJoueur = scanner.nextInt();
+            try {
+                if (nbJoueur > 6) {
+                    throw new IllegalArgumentException("Le nombre de maximum de joueurs est de 6.");
+
+                } else {
+
+                    for (int i = 1; i <= nbJoueur; i++) {
+                        afficherCarte();
+                        System.out.println("dans quels pays voulez vous commencer: ");
+                    }
+                    serrure = false;
+                }
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+
+
+        } while (serrure);
+    }
+
+    public static void afficherCarte() {
+        String dossier = "Risk/src/donnees/";
+
+        try {
+            // 1. Lister les fichiers disponibles
+            File dir = new File(dossier);
+            File[] fichiers = dir.listFiles((d, name) -> name.endsWith(".ser"));
+
+            if (fichiers == null || fichiers.length == 0) {
+                System.out.println("Aucun fichier de réseau (.ser) trouvé dans " + dossier);
+                return;
+            }
+
+            int choix = 1;
+            String nomFichierSelectionne = fichiers[choix - 1].getPath();
+
+            // 3. Charger et afficher
+            Carte reseauALire = Carte.charger(nomFichierSelectionne);
+
+            JFrame frame = new JFrame("Visualisation de la carte de Jeu Risk - " + nomFichierSelectionne);
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.add(new CarteApp(reseauALire));
+            frame.pack();
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+
+        } catch (Exception e) {
+            System.err.println("Erreur : Assurez-vous d'entrer un numéro valide.");
+            e.printStackTrace();
+        } finally {
+            // sc.close(); // Optionnel selon ton flux de travail
+        }
     }
 
 
