@@ -7,18 +7,19 @@ import javax.swing.*;
 import javax.swing.text.html.HTMLDocument;
 import java.io.IOException;
 import java.io.File;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.TreeSet;
 
 public class Main {
     public static final Scanner scanner = new Scanner(System.in);
+    public static Carte maCarte = new Carte();
 
     public static void main(String[] args) {
 
         // Création du dossier de données s'il n'existe pas
         File dir = new File("Risk/src/donnees");
         if (!dir.exists()) dir.mkdirs();
-
-        Carte maCarte = new Carte();
 
 
         // 1. Création de quelques territoires
@@ -116,23 +117,37 @@ public class Main {
     //1.1 Création des joueurs
     public static void creationJoueur() {
         boolean serrure = true;
+        Etat[] etats = Etat.values();
         do {
 
             System.out.print("Combien de joueurs êtes vous ? :");
-            int nbJoueur = scanner.nextInt();
+            int nbJoueur = Integer.parseInt(scanner.nextLine().trim());
             try {
                 if (nbJoueur > 6) {
                     throw new IllegalArgumentException("Le nombre de maximum de joueurs est de 6.");
 
                 } else {
 
-                    for (int i = 1; i <= nbJoueur; i++) {
+
+                    for (int i = 0; i < nbJoueur; i++) {
                         afficherCarte();
-                        System.out.println("dans quels pays voulez vous commencer: ");
+                        System.out.println("Dans quel pays voulez vous commencer ? : ");
+                        afficherListe();
+                        int choix = Integer.parseInt(scanner.nextLine().trim());
+                        String reponse = choixPays(choix);
+                        for (Territoire t : maCarte.getConnexions().keySet()) {
+                            if (t.getNom().equals(reponse)) {
+                                t.setEtat(etats[i]);
+                            }
+
+                        }
+
+
                     }
+
                     serrure = false;
                 }
-            } catch (IllegalArgumentException e) {
+            } catch (IllegalArgumentException | IOException e) {
                 System.out.println(e.getMessage());
             }
 
@@ -140,9 +155,8 @@ public class Main {
         } while (serrure);
     }
 
-    public static void afficherCarte() {
+    public static void afficherCarte() throws IOException {
         String dossier = "Risk/src/donnees/";
-
         try {
             // 1. Lister les fichiers disponibles
             File dir = new File(dossier);
@@ -171,6 +185,72 @@ public class Main {
             e.printStackTrace();
         } finally {
             // sc.close(); // Optionnel selon ton flux de travail
+        }
+    }
+
+    public static void afficherListe() {
+        int nombre = 1;
+        for (Map.Entry<Territoire, TreeSet<Territoire>> entry : maCarte.getConnexions().entrySet()) {
+            System.out.print(nombre++ + " : ");
+            System.out.println(entry.getKey().getNom());
+        }
+
+    }
+
+    public static String choixPays(int choix) {
+        switch (choix) {
+            case 1:
+                System.out.println("Vous avez choisi l'Allemagne.");
+                return "Allemagne";
+
+            case 2:
+                System.out.println("Vous avez choisi le Canada.");
+                return "Canada";
+
+
+            case 3:
+                System.out.println("Vous avez choisi l'Italie.");
+                return "Italie";
+
+            case 4:
+                System.out.println("Vous avez choisi le Royaume-Uni.");
+                return "Royaume";
+
+            case 5:
+                System.out.println("Vous avez choisi la Pologne.");
+                return "Pologne";
+
+            case 6:
+                System.out.println("Vous avez choisi la Suisse.");
+                return "Suisse";
+
+            case 7:
+                System.out.println("Vous avez choisi la Russie.");
+                return "Russie";
+
+            case 8:
+                System.out.println("Vous avez choisi la Serbie.");
+                return "Serbie";
+
+            case 9:
+                System.out.println("Vous avez choisi la Chine.");
+                return "Chine";
+
+            case 10:
+                System.out.println("Vous avez choisi la France.");
+                return "France";
+
+            case 11:
+                System.out.println("Vous avez choisi l'Espagne.");
+                return "Espagne";
+
+            case 12:
+                System.out.println("Vous avez choisi les U.S.A.");
+                return "U.S.A";
+
+            default:
+                System.out.println("Choix invalide.");
+                return null;
         }
     }
 
