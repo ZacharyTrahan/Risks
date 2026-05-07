@@ -7,6 +7,7 @@ import javax.swing.*;
 import javax.swing.text.html.HTMLDocument;
 import java.io.IOException;
 import java.io.File;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.TreeSet;
@@ -14,6 +15,8 @@ import java.util.TreeSet;
 public class Main {
     public static final Scanner scanner = new Scanner(System.in);
     public static Carte maCarte = new Carte();
+    public static JFrame frame;
+    public static CarteApp appInstance;
 
     public static void main(String[] args) {
 
@@ -79,6 +82,15 @@ public class Main {
             // Sauvegarde de la carte initiale
             maCarte.sauvegarder("Risk/src/donnees/map_europe.ser");
             System.out.println("Carte sauvegardée avec succès !");
+            //IA
+            frame = new JFrame("Visualisation Risk");
+            appInstance = new CarteApp(maCarte); // On passe l'objet maCarte directement
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.add(appInstance);
+            frame.pack();
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+            //IA
 
             System.out.println("=== LOGIQUE DE JEU ===");
 
@@ -130,7 +142,7 @@ public class Main {
 
 
                     for (int i = 0; i < nbJoueur; i++) {
-                        afficherCarte();
+
                         System.out.println("Dans quel pays voulez vous commencer ? : ");
                         afficherListe();
                         int choix = Integer.parseInt(scanner.nextLine().trim());
@@ -138,6 +150,7 @@ public class Main {
                         for (Territoire t : maCarte.getConnexions().keySet()) {
                             if (t.getNom().equals(reponse)) {
                                 t.setEtat(etats[i]);
+                                appInstance.repaint();
                             }
 
                         }
@@ -147,7 +160,7 @@ public class Main {
 
                     serrure = false;
                 }
-            } catch (IllegalArgumentException | IOException e) {
+            } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
             }
 
@@ -214,7 +227,7 @@ public class Main {
 
             case 4:
                 System.out.println("Vous avez choisi le Royaume-Uni.");
-                return "Royaume";
+                return "Royaume-Uni";
 
             case 5:
                 System.out.println("Vous avez choisi la Pologne.");
