@@ -129,11 +129,18 @@ public class Main {
     //1.1 Création des joueurs
     public static void creationJoueur() {
         boolean serrure = true;
+
         Etat[] etats = Etat.values();
         do {
+            int nbJoueur = 7;
 
             System.out.print("Combien de joueurs êtes vous ? :");
-            int nbJoueur = Integer.parseInt(scanner.nextLine().trim());
+            try {
+                nbJoueur = Integer.parseInt(scanner.nextLine().trim());
+            } catch (NumberFormatException e) {
+                System.out.println("Vous devez mettre un nombre.");
+            }
+
             try {
                 if (nbJoueur > 6) {
                     throw new IllegalArgumentException("Le nombre de maximum de joueurs est de 6.");
@@ -142,18 +149,41 @@ public class Main {
 
 
                     for (int i = 0; i < nbJoueur; i++) {
+                        boolean serrure2 = true;
 
-                        System.out.println("Dans quel pays voulez vous commencer ? : ");
-                        afficherListe();
-                        int choix = Integer.parseInt(scanner.nextLine().trim());
-                        String reponse = choixPays(choix);
-                        for (Territoire t : maCarte.getConnexions().keySet()) {
-                            if (t.getNom().equals(reponse)) {
-                                t.setEtat(etats[i]);
-                                appInstance.repaint();
-                            }
+                            do {
 
-                        }
+                                System.out.println("Dans quel pays voulez vous commencer ? : ");
+                                afficherListe();
+                                int choix = -1;
+                                try {
+                                    choix = Integer.parseInt(scanner.nextLine().trim());
+                                } catch (NumberFormatException e) {
+                                    System.out.println("Vous devez mettre un nombre.");
+                                }
+                                if (choix != -1) {
+                                    String reponse = choixPays(choix);
+
+                                    for (Territoire t : maCarte.getConnexions().keySet()) {
+                                        if (t.getNom().equals(reponse)) {
+                                            try {
+                                                if (t.getEtat().equals(Etat.NEUTRE)) {
+                                                    t.setEtat(etats[i]);
+                                                    appInstance.repaint();
+                                                    serrure2 = false;
+                                                } else {
+                                                    throw new IllegalArgumentException("Le territoire ne doit pas être pris par quelqu'un d'autres");
+                                                }
+                                            } catch (IllegalArgumentException e){
+                                                System.out.println(e.getMessage());
+                                            }
+
+                                        }
+
+                                    }
+                                }
+                            } while (serrure2);
+
 
 
                     }
