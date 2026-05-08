@@ -24,7 +24,7 @@ public class CarteTest {
         T1 = new Territoire("Canada", Etat.NEUTRE);
         T2 = new Territoire("Allemagne", Etat.NEUTRE);
         T3 = new Territoire("France", Etat.NEUTRE);
-        T4 = new Territoire("Russie", Etat.NEUTRE);
+        T4 = new Territoire("Canada", Etat.NEUTRE);
     }
 
     @Test
@@ -95,7 +95,7 @@ public class CarteTest {
     @Test
     void testExAutoLien() {
         reseauCarte.ajouterTerritoire(T1);
-        assertThrows(IllegalArgumentException.class, () -> reseauCarte.lierTerritoire(T1, T1));
+        assertThrows(IllegalArgumentException.class, () -> reseauCarte.lierTerritoire(T1, T4));
     }
 
     @Test
