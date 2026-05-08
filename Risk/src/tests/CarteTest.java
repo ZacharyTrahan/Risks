@@ -1,12 +1,15 @@
 package tests;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import reseau.Carte;
 
 import org.junit.jupiter.api.Test;
 import reseau.Etat;
 import reseau.Territoire;
 
+
+import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -76,6 +79,34 @@ public class CarteTest {
     @Test
     public void attaquer(){
 
+    }
+
+    @Test
+    void testExAjoutNull() {
+        assertThrows(IllegalArgumentException.class, () -> reseauCarte.ajouterTerritoire(null));
+    }
+
+    @Test
+    void testExLierInexistant() {
+        reseauCarte.ajouterTerritoire(T1);
+        assertThrows(NoSuchElementException.class, () -> reseauCarte.lierTerritoire(T1, T2));
+    }
+
+    @Test
+    void testExAutoLien() {
+        reseauCarte.ajouterTerritoire(T1);
+        assertThrows(IllegalArgumentException.class, () -> reseauCarte.lierTerritoire(T1, T2));
+    }
+
+    @Test
+    void testExRompreInexistant() {
+        reseauCarte.ajouterTerritoire(T1);
+        assertThrows(NoSuchElementException.class, () -> reseauCarte.rompreLien(T1, T2));
+    }
+
+    @Test
+    void testExRetraitInexistant() {
+        assertThrows(NoSuchElementException.class, () -> reseauCarte.retirerTerritoire(T1));
     }
 
     @Test
