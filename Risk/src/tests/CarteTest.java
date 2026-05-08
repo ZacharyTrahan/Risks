@@ -95,7 +95,7 @@ public class CarteTest {
     @Test
     void testExAutoLien() {
         reseauCarte.ajouterTerritoire(T1);
-        assertThrows(IllegalArgumentException.class, () -> reseauCarte.lierTerritoire(T1, T2));
+        assertThrows(IllegalArgumentException.class, () -> reseauCarte.lierTerritoire(T1, T1));
     }
 
     @Test
