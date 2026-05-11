@@ -37,29 +37,29 @@ public class CarteApp extends JPanel {
             switch (t.getNom()) {
                 case "Canada":      pGeo = new Point(54, -100); break;
                 case "U.S.A":       pGeo = new Point(39, -97);  break;
-                case "Royaume-Uni": pGeo = new Point(54, -50);   break;
-                case "Espagne":     pGeo = new Point(39, -3);   break;
-                case "France":      pGeo = new Point(46, 2);    break;
+                case "Royaume-Uni": pGeo = new Point(54, -50);  break;
+                case "Espagne":     pGeo = new Point(39, -30);   break;
+                case "France":      pGeo = new Point(50, -37);    break;
                 case "Suisse":      pGeo = new Point(47, 8);    break;
-                case "Allemagne":   pGeo = new Point(51, 10);   break;
+                case "Allemagne":   pGeo = new Point(51, 0);   break;
                 case "Italie":      pGeo = new Point(42, 13);   break;
                 case "Pologne":     pGeo = new Point(52, 19);   break;
                 case "Chine":       pGeo = new Point(34, 103);  break;
-                default:            pGeo = new Point(45, 0);    break; // Centre par défaut
+                default:            pGeo = new Point(45, -10);    break;
             }
 
-            // --- NOUVELLE FORMULE D'AJUSTEMENT ---
+            // --- AJUSTEMENT POUR RÉSOLUTION 1920 x 1080 ---
 
-            // 1. Longitude (X) : On passe de [-102, 103] à [50, 850] pixels
-            // (pGeo.y + 102) donne une plage de 0 à 205.
-            // 900 (largeur) / 205 (amplitude) = env 4.3
-            int x = (int)((pGeo.y + 102) * 4.5) + 30;
+            // 1. Longitude (X) : Plage d'entrée approx. [-100, 103] => Amplitude de 203
+            // On veut étaler ça sur environ 1600 pixels (pour laisser des marges)
+            // Ratio : 1600 / 203 ≈ 7.8
+            int x = (int)((pGeo.y + 100) * 7.8) + 160;
 
-            // 2. Latitude (Y) : On passe de [34, 58] à [100, 600] pixels
-            // Attention : en Java, Y=0 est en haut. Donc on inverse (58 - latitude).
-            // (58 - pGeo.x) donne une plage de 0 à 24.
-            // 700 (hauteur) / 24 = env 29
-            int y = (int)((58 - pGeo.x) * 23.0) + 80;
+            // 2. Latitude (Y) : Plage d'entrée approx. [34, 54] => Amplitude de 20
+            // On veut étaler ça sur environ 800 pixels
+            // Ratio : 800 / 20 = 40
+            // Inversion Java : (MaxLatitude - pGeo.x)
+            int y = (int)((54 - pGeo.x) * 40.0) + 140;
 
             positions.put(t, new Point(x, y));
         }
@@ -130,20 +130,20 @@ public class CarteApp extends JPanel {
             // Surlignage si sélectionné
             if (t.equals(territoireSelectionne)) {
                 g2d.setColor(Color.WHITE);
-                g2d.fillOval(p.x - 40, p.y - 40, 80, 80);
+                g2d.fillOval(p.x - 40, p.y - 40, 110, 110);
             }
 
             // Dessin du territoire
             g2d.setColor(couleurCercle);
-            g2d.fillOval(p.x - 35, p.y - 35, 70, 70);
+            g2d.fillOval(p.x - 35, p.y - 35, 100, 100);
             g2d.setColor(Color.BLACK);
-            g2d.drawOval(p.x - 35, p.y - 35, 70, 70);
+            g2d.drawOval(p.x - 35, p.y - 35, 100, 100);
 
             // Nom du territoire
             g2d.setColor(Color.WHITE);
             String txt = t.getNom();
             int largeurTxt = g2d.getFontMetrics().stringWidth(txt);
-            g2d.drawString(txt, p.x - (largeurTxt / 2), p.y + 5);
+            g2d.drawString(txt, p.x - (largeurTxt /4), p.y + 20);
         }
 
         // 3. Interface HUD
