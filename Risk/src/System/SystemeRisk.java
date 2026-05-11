@@ -191,28 +191,30 @@ public class SystemeRisk {
 
     public void afficheActionJoueur() {
 
-        do {
-            for (int i = 0; i < nbJoueur; i++) {
-                java.lang.System.out.println("En attente de l'action du joueur..." + etats[i]);
 
-                java.lang.System.out.println("[1] Attaquer");
-                java.lang.System.out.println("[2] Transfère troupe");
-                java.lang.System.out.println("[3] Passer son tour");
-                java.lang.System.out.println();
-                java.lang.System.out.println("[4] Sauvegarder");
+        for (int i = 0; i < nbJoueur; i++) {
+            java.lang.System.out.println("En attente de l'action du joueur..." + etats[i]);
 
-            }
-        } while (!victoire());
+            java.lang.System.out.println("[1] Attaquer");
+            java.lang.System.out.println("[2] Transfère troupe");
+            java.lang.System.out.println("[3] Passer son tour");
+            java.lang.System.out.println();
+            java.lang.System.out.println("[4] Sauvegarder");
 
+        }
 
 
     }
 
     public void gameOn(Carte maCarte, CarteApp appInstance) throws IOException, InterruptedException {
         logiqueJeu();
-        creationJoueur(maCarte,appInstance);
+        creationJoueur(maCarte, appInstance);
 
-        afficheActionJoueur();
+
+        do {
+            afficheActionJoueur();
+
+        } while (!victoire());
 
 
     }
@@ -238,9 +240,37 @@ public class SystemeRisk {
                 "\ndéfendre leurs territoires, avec des combats qui peuvent" +
                 " \nmener à la conquête de territoires. ");
     }
-    public boolean victoire(){
+
+    public boolean victoire() {
 
         return false;
+    }
+
+    public void actionJoueur(int choix) {
+        switch (choix) {
+            case 1:
+                java.lang.System.out.println("Vous avez choisi : L''Attaque");
+
+
+
+            case 2:
+                java.lang.System.out.println("Vous avez choisi : Le transfère");
+
+
+            case 3:
+                java.lang.System.out.println("Vous avez choisi : Passer son tour");
+
+
+            case 4:
+                java.lang.System.out.println("Vous avez choisi Sauvegarder");
+                break;
+
+            default:
+                java.lang.System.out.println("Choix invalide.");
+
+        }
+
+
     }
 
 
