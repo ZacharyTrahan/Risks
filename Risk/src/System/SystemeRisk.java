@@ -35,7 +35,7 @@ public class SystemeRisk {
             }
 
             try {
-                if (nbJoueur > 6) {
+                if (nbJoueur > 6 || nbJoueur <= 0) {
                     throw new IllegalArgumentException("Le nombre de maximum de joueurs est de 6.");
 
                 } else {
@@ -191,22 +191,26 @@ public class SystemeRisk {
 
     public void afficheActionJoueur() {
 
+        do {
+            for (int i = 0; i < nbJoueur; i++) {
+                java.lang.System.out.println("En attente de l'action du joueur..." + etats[i]);
 
-        java.lang.System.out.println("En attente du action joueur...");
+                java.lang.System.out.println("[1] Attaquer");
+                java.lang.System.out.println("[2] Transfère troupe");
+                java.lang.System.out.println("[3] Passer son tour");
+                java.lang.System.out.println();
+                java.lang.System.out.println("[4] Sauvegarder");
 
-        java.lang.System.out.println("[1] Attaquer");
-        java.lang.System.out.println("[2] Transfère troupe");
-        java.lang.System.out.println("[3] Passer son tour");
-        java.lang.System.out.println();
-        java.lang.System.out.println("[4] Sauvegarder");
+            }
+        } while (!victoire());
+
 
 
     }
 
-    public void gameOn() {
-
-        Etat[] etats = Etat.values();
-
+    public void gameOn(Carte maCarte, CarteApp appInstance) throws IOException, InterruptedException {
+        logiqueJeu();
+        creationJoueur(maCarte,appInstance);
 
         afficheActionJoueur();
 
@@ -233,6 +237,10 @@ public class SystemeRisk {
                 "\n-4)Combats : Les joueurs lancent des dés pour attaquer et " +
                 "\ndéfendre leurs territoires, avec des combats qui peuvent" +
                 " \nmener à la conquête de territoires. ");
+    }
+    public boolean victoire(){
+
+        return false;
     }
 
 

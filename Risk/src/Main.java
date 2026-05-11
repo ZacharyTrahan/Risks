@@ -4,13 +4,9 @@ import app.CarteApp;
 import reseau.*;
 
 import javax.swing.*;
-import javax.swing.text.html.HTMLDocument;
-import java.io.IOException;
 import java.io.File;
-import java.util.Arrays;
-import java.util.Map;
 import java.util.Scanner;
-import java.util.TreeSet;
+
 import System.SystemeRisk;
 
 public class Main {
@@ -92,12 +88,10 @@ public class Main {
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
             //IA
+
+
             SystemeRisk system = new SystemeRisk();
-
-            system.afficherCarte();
-            system.creationJoueur(maCarte,appInstance);
-            system.gameOn();
-
+            system.gameOn(maCarte,appInstance);
 
 
         } catch (Exception e) {
