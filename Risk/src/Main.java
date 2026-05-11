@@ -312,7 +312,17 @@ public class Main {
     }
 
     public static void gameOn(){
+
+        Etat[] etats = Etat.values();
+
+
+
+
         afficheActionJoueur();
+
+
+
+
     }
 
 
