@@ -189,19 +189,16 @@ public class SystemeRisk {
         }
     }
 
-    public void afficheActionJoueur() {
+    public void afficheActionJoueur(int j) {
 
 
-        for (int i = 0; i < nbJoueur; i++) {
-            java.lang.System.out.println("En attente de l'action du joueur..." + etats[i]);
+        java.lang.System.out.println("En attente de l'action du joueur..." + etats[j]);
 
-            java.lang.System.out.println("[1] Attaquer");
-            java.lang.System.out.println("[2] Transfère troupe");
-            java.lang.System.out.println("[3] Passer son tour");
-            java.lang.System.out.println();
-            java.lang.System.out.println("[4] Sauvegarder");
-
-        }
+        java.lang.System.out.println("[1] Attaquer");
+        java.lang.System.out.println("[2] Transfère troupe");
+        java.lang.System.out.println("[3] Passer son tour");
+        java.lang.System.out.println();
+        java.lang.System.out.println("[4] Sauvegarder");
 
 
     }
@@ -212,11 +209,31 @@ public class SystemeRisk {
 
 
         do {
-            afficheActionJoueur();
+            for (int i = 0; i < nbJoueur; i++) {
+                afficheActionJoueur(i);
+                int choix = -1;
+                try {
+                    choix = Integer.parseInt(scanner.nextLine().trim());
+                } catch (NumberFormatException e) {
+                    java.lang.System.out.println("Vous devez mettre un nombre.");
+                }
+
+                try {
+                    if (choix > 4 || choix <= 0) {
+                        throw new IllegalArgumentException("Vous devez choisir un des choix.");
+
+                    }
+                    else {
+                        actionJoueur(choix);
+                    }
+                } catch (IllegalArgumentException e) {
+                    java.lang.System.out.println(e.getMessage());
+                }
+
+            }
+
 
         } while (!victoire());
-
-
     }
 
     public void logiqueJeu() throws InterruptedException {
@@ -249,8 +266,7 @@ public class SystemeRisk {
     public void actionJoueur(int choix) {
         switch (choix) {
             case 1:
-                java.lang.System.out.println("Vous avez choisi : L''Attaque");
-
+                java.lang.System.out.println("Vous avez choisi : L'Attaque");
 
 
             case 2:
