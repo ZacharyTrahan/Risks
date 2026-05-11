@@ -31,17 +31,37 @@ public class CarteApp extends JPanel {
     }
 
     private void genererPositionsEnCercle() {
-        int centerX = 450, centerY = 350, radius = 250;
-        Set<Territoire> territoires = carte.getConnexions().keySet();
-        int total = territoires.size();
-        int index = 0;
+        for (Territoire t : carte.getConnexions().keySet()) {
+            Point pGeo = null;
 
-        for (Territoire t : territoires) {
-            double angle = 2 * Math.PI * index / total;
-            int x = (int) (centerX + radius * Math.cos(angle));
-            int y = (int) (centerY + radius * Math.sin(angle));
+            switch (t.getNom()) {
+                case "Canada":      pGeo = new Point(54, -100); break;
+                case "U.S.A":       pGeo = new Point(39, -97);  break;
+                case "Royaume-Uni": pGeo = new Point(54, -50);   break;
+                case "Espagne":     pGeo = new Point(39, -3);   break;
+                case "France":      pGeo = new Point(46, 2);    break;
+                case "Suisse":      pGeo = new Point(47, 8);    break;
+                case "Allemagne":   pGeo = new Point(51, 10);   break;
+                case "Italie":      pGeo = new Point(42, 13);   break;
+                case "Pologne":     pGeo = new Point(52, 19);   break;
+                case "Chine":       pGeo = new Point(34, 103);  break;
+                default:            pGeo = new Point(45, 0);    break; // Centre par défaut
+            }
+
+            // --- NOUVELLE FORMULE D'AJUSTEMENT ---
+
+            // 1. Longitude (X) : On passe de [-102, 103] à [50, 850] pixels
+            // (pGeo.y + 102) donne une plage de 0 à 205.
+            // 900 (largeur) / 205 (amplitude) = env 4.3
+            int x = (int)((pGeo.y + 102) * 4.5) + 30;
+
+            // 2. Latitude (Y) : On passe de [34, 58] à [100, 600] pixels
+            // Attention : en Java, Y=0 est en haut. Donc on inverse (58 - latitude).
+            // (58 - pGeo.x) donne une plage de 0 à 24.
+            // 700 (hauteur) / 24 = env 29
+            int y = (int)((58 - pGeo.x) * 23.0) + 80;
+
             positions.put(t, new Point(x, y));
-            index++;
         }
     }
 
@@ -70,19 +90,21 @@ public class CarteApp extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        // ... réglages habituels ...
 
-        // 1. Dessiner les frontières (Arêtes)
-        g2d.setStroke(new BasicStroke(2));
-        g2d.setColor(new Color(70, 70, 70));
+        // 1. Dessiner les frontières
         for (var entree : carte.getConnexions().entrySet()) {
             Point p1 = positions.get(entree.getKey());
-            for (Territoire voisin : entree.getValue()) {
-                Point p2 = positions.get(voisin);
-                g2d.drawLine(p1.x, p1.y, p2.x, p2.y);
+
+            if (p1 != null) { // <--- CETTE VÉRIFICATION EMPÊCHE LE CRASH
+                for (Territoire voisin : entree.getValue()) {
+                    Point p2 = positions.get(voisin);
+                    if (p2 != null) {
+                        g2d.drawLine(p1.x, p1.y, p2.x, p2.y);
+                    }
+                }
             }
         }
-
         // 2. Dessiner les territoires (Nœuds)
         for (Territoire t : carte.getConnexions().keySet()) {
             Point p = positions.get(t);

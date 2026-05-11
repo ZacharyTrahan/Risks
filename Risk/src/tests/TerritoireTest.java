@@ -1,5 +1,6 @@
 package tests;
 
+import org.junit.jupiter.api.Test;
 import reseau.Etat;
 import reseau.Territoire;
 
@@ -7,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TerritoireTest {
 
-    @org.junit.jupiter.api.Test
+    @Test
     void getEtat() {
         Territoire territoire = new Territoire("France");
         assertEquals(Etat.NEUTRE, territoire.getEtat(), "L'état initial doit être NEUTRE");
@@ -15,7 +16,7 @@ class TerritoireTest {
         assertEquals(Etat.JOUEUR2, territoire.getEtat(), "L'état doit être mis à jour correctement après l'appel à setEtat");
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void setEtat() {
         Territoire territoire = new Territoire("Canada");
         assertEquals(Etat.NEUTRE, territoire.getEtat(), "L'état initial doit être NEUTRE");
@@ -23,35 +24,35 @@ class TerritoireTest {
         assertEquals(Etat.JOUEUR1, territoire.getEtat(), "L'état doit être mis à jour correctement après l'appel à setEtat");
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void getnBInfanterie() {
         Territoire territoire = new Territoire("France");
         territoire.setnBInfanterie(10);
         assertEquals(10, territoire.getnBInfanterie());
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void setnBInfanterie() {
         Territoire territoire = new Territoire("France");
         territoire.setnBInfanterie(10);
         assertEquals(10, territoire.getnBInfanterie());
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void getNom() {
         Territoire territoire = new Territoire("Canada");
         territoire.setNom("Canada");
         assertEquals("Canada", territoire.getNom());
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void setNom() {
         Territoire territoire = new Territoire("Canada");
         territoire.setNom("Canada");
         assertEquals("Canada", territoire.getNom());
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void compareTo() {
         Territoire t1 = new Territoire("Canada");
         Territoire t2 = new Territoire("Bresil");
@@ -62,7 +63,7 @@ class TerritoireTest {
         assertEquals(0, t1.compareTo(t3));
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void testEquals() {
         Territoire t1 = new Territoire("U.S.A");
         Territoire t2 = new Territoire("U.S.A");
@@ -75,7 +76,7 @@ class TerritoireTest {
         assertNotEquals(t1, new Object(), "Un objet n'est pas égal à une instance d'une autre classe");
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void testToString() {
         Territoire territoire = new Territoire("Allemagne", Etat.NEUTRE);
         String resultat = territoire.toString();
@@ -83,7 +84,7 @@ class TerritoireTest {
         assertTrue(resultat.contains("NEUTRE"), "Le toString doit contenir l'état du territoire");
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void testHashCode() {
         String nomCommun = "Canada";
         Territoire t1 = new Territoire(nomCommun);
@@ -93,7 +94,7 @@ class TerritoireTest {
                 "Deux objets égaux doivent avoir le même hashCode");
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void isValid() {
         Territoire territoire = new Territoire("Canada");
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
