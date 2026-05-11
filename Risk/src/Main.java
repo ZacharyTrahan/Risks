@@ -15,6 +15,7 @@ import java.util.TreeSet;
 public class Main {
     public static final Scanner scanner = new Scanner(System.in);
     public static Carte maCarte = new Carte();
+    public static System system = new System();
     public static JFrame frame;
     public static CarteApp appInstance;
 

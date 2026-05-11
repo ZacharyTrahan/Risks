@@ -12,12 +12,12 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.TreeSet;
 
-public class System {
+public class SystemeRisk {
     public static final Etat[] etats = Etat.values();
     public static final Scanner scanner = new Scanner(java.lang.System.in);
     private double nbJoueur;
 
-    public System() {
+    public SystemeRisk() {
     }
 
     //1.1 Création des joueurs
