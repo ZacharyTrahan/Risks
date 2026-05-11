@@ -116,7 +116,8 @@ public class Main {
             afficherCarte();
             creationJoueur();
 
-            System.out.println("En attente des actions joueurs...");
+            gameOn();
+
 
 
         } catch (Exception e) {
@@ -151,39 +152,38 @@ public class Main {
                     for (int i = 0; i < nbJoueur; i++) {
                         boolean serrure2 = true;
 
-                            do {
+                        do {
 
-                                System.out.println("Dans quel pays voulez vous commencer ? : ");
-                                afficherListe();
-                                int choix = -1;
-                                try {
-                                    choix = Integer.parseInt(scanner.nextLine().trim());
-                                } catch (NumberFormatException e) {
-                                    System.out.println("Vous devez mettre un nombre.");
-                                }
-                                if (choix != -1) {
-                                    String reponse = choixPays(choix);
+                            System.out.println("Dans quel pays voulez vous commencer ? : ");
+                            afficherListe();
+                            int choix = -1;
+                            try {
+                                choix = Integer.parseInt(scanner.nextLine().trim());
+                            } catch (NumberFormatException e) {
+                                System.out.println("Vous devez mettre un nombre.");
+                            }
+                            if (choix != -1) {
+                                String reponse = choixPays(choix);
 
-                                    for (Territoire t : maCarte.getConnexions().keySet()) {
-                                        if (t.getNom().equals(reponse)) {
-                                            try {
-                                                if (t.getEtat().equals(Etat.NEUTRE)) {
-                                                    t.setEtat(etats[i]);
-                                                    appInstance.repaint();
-                                                    serrure2 = false;
-                                                } else {
-                                                    throw new IllegalArgumentException("Le territoire ne doit pas être pris par quelqu'un d'autres");
-                                                }
-                                            } catch (IllegalArgumentException e){
-                                                System.out.println(e.getMessage());
+                                for (Territoire t : maCarte.getConnexions().keySet()) {
+                                    if (t.getNom().equals(reponse)) {
+                                        try {
+                                            if (t.getEtat().equals(Etat.NEUTRE)) {
+                                                t.setEtat(etats[i]);
+                                                appInstance.repaint();
+                                                serrure2 = false;
+                                            } else {
+                                                throw new IllegalArgumentException("Le territoire ne doit pas être pris par quelqu'un d'autres");
                                             }
-
+                                        } catch (IllegalArgumentException e) {
+                                            System.out.println(e.getMessage());
                                         }
 
                                     }
-                                }
-                            } while (serrure2);
 
+                                }
+                            }
+                        } while (serrure2);
 
 
                     }
@@ -295,6 +295,24 @@ public class Main {
                 System.out.println("Choix invalide.");
                 return null;
         }
+    }
+
+    public static void afficheActionJoueur() {
+
+
+        System.out.println("En attente du action joueur...");
+
+        System.out.println("[1] Attaquer");
+        System.out.println("[2] Transfère troupe");
+        System.out.println("[3] Passer son tour");
+        System.out.println();
+        System.out.println("[4] Sauvegarder");
+
+
+    }
+
+    public static void gameOn(){
+        afficheActionJoueur();
     }
 
 
