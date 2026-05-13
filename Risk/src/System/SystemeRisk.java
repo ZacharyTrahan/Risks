@@ -52,7 +52,7 @@ public class SystemeRisk {
                             } catch (NumberFormatException e) {
                                 System.out.println("Vous devez mettre un nombre.");
                             }
-                            Territoire reponse = null; 
+                            Territoire reponse = null;
                             try {
                                  reponse = choixPays(choix, maCarte);
                             } catch (NullPointerException e) {
