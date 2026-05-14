@@ -51,6 +51,7 @@ public class Main {
         Territoire suisse = new Territoire("Suisse");
 
 
+
         // 2. Ajout au réseau
         maCarte.ajouterTerritoire(france);
         maCarte.ajouterTerritoire(espagne);
@@ -87,6 +88,8 @@ public class Main {
             maCarte.lierTerritoire(pologne, serbie);
             maCarte.lierTerritoire(russie, serbie);
             maCarte.lierTerritoire(russie, chine);
+            maCarte.lierTerritoire(chine,serbie);
+            maCarte.lierTerritoire(espagne,italie);
 
 
             // Sauvegarde de la carte initiale
@@ -104,7 +107,7 @@ public class Main {
 
 
             SystemeRisk system = new SystemeRisk();
-            system.gameOn(maCarte,appInstance);
+            system.gameOn(maCarte, appInstance);
 
 
         } catch (Exception e) {
@@ -113,8 +116,6 @@ public class Main {
 
 
     }
-
-
 
 
 }
