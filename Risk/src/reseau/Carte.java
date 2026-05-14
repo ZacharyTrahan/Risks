@@ -52,7 +52,7 @@ public class Carte implements java.io.Serializable {
      *
      * @param a premier territoire
      * @param b second territoire
-     * @throws NoSuchElementException si un des territoires n'existe pas dans la carte
+     * @throws NoSuchElementException   si un des territoires n'existe pas dans la carte
      * @throws IllegalArgumentException si un des paramètres est nul ou si les deux territoires sont identiques
      */
 
@@ -143,11 +143,30 @@ public class Carte implements java.io.Serializable {
         }
     }
 
+    public void transferer(Territoire donneur, Territoire receveur) {
+        if (connexions.containsKey(donneur) && connexions.containsKey(receveur)) {
+            if (!donneur.getEtat().equals(receveur.getEtat())) {
+                if (!connexions.get(donneur).contains(receveur)) {
+                    throw new IllegalArgumentException("Le donneur :" + donneur.getNom() + " doit avoir un lien avec le receveur :" + receveur.getNom());
+                } else {
+                    if (donneur.getnBInfanterie() < MINIMAL_INFANTERIE) {
+                        throw new IllegalArgumentException("Le donneur :" + donneur.getNom() + " doit avoir un minimum de :" + MINIMAL_INFANTERIE);
+                    } else {
+                        receveur.setnBInfanterie(receveur.getnBInfanterie() + (donneur.getnBInfanterie() - 1));
+                        donneur.setnBInfanterie(1);
+                    }
+                }
+            } else {
+                throw new IllegalArgumentException("Tu ne peut pas donner des troupes à ton propre pays petit baka!");
+            }
+        }
+    }
+
     /**
      * Sauvegarde la carte dans un fichier sérialisé.
      *
      * @param nomFichier chemin du fichier de sortie
-     * @throws IOException si l'écriture échoue
+     * @throws IOException              si l'écriture échoue
      * @throws IllegalArgumentException si le nom de fichier est vide ou nul
      */
 
@@ -168,13 +187,12 @@ public class Carte implements java.io.Serializable {
      *
      * @param nomFichier chemin du fichier à lire
      * @return carte chargée
-     * @throws IOException si la lecture échoue
-     * @throws ClassNotFoundException si le fichier ne contient pas une carte valide
+     * @throws IOException              si la lecture échoue
+     * @throws ClassNotFoundException   si le fichier ne contient pas une carte valide
      * @throws IllegalArgumentException si le nom de fichier est vide ou nul
      */
 
     //logique de méthode pour trouver la range nécessaire pour attaquer.
-
     public static Carte charger(String nomFichier) throws IOException, ClassNotFoundException {
         if (nomFichier == null || nomFichier.trim().isEmpty()) {
             throw new IllegalArgumentException("Le nom du fichier doit exister, là il n'y a rien!");

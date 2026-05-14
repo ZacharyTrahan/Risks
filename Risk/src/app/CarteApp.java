@@ -4,10 +4,12 @@ package app;
 import reseau.*;
 
 import javax.swing.*;
+import javax.swing.Timer;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
 import java.util.*;
 
 /**
@@ -21,8 +23,10 @@ import java.util.*;
  * Version exécutable de l'affichage du jeu Risk.
  * Cette classe contient maintenant son propre main pour lancer la fenêtre.
  */
-public class CarteApp extends JPanel {
-
+public class CarteApp extends JPanel implements ActionListener {
+    private String message = "Bonjour !";
+    private int step = 0;
+    private final Timer timer;
     private final Carte carte;
     private final Map<Territoire, Point> positions;
     private Territoire territoireSelectionne = null;
@@ -38,7 +42,8 @@ public class CarteApp extends JPanel {
         this.positions = new HashMap<>();
         this.setPreferredSize(new Dimension(900, 700));
         this.setBackground(new Color(25, 25, 25)); // Look "War Room"
-
+        timer = new Timer(2000, this);
+        timer.start();
         genererPositionsEnCercle();
         setupMouseListener();
     }
@@ -55,18 +60,42 @@ public class CarteApp extends JPanel {
             Point pGeo = null;
 
             switch (t.getNom()) {
-                case "Canada":      pGeo = new Point(54, -100); break;
-                case "U.S.A":       pGeo = new Point(39, -97);  break;
-                case "Royaume-Uni": pGeo = new Point(54, -50);  break;
-                case "Espagne":     pGeo = new Point(39, -30);   break;
-                case "France":      pGeo = new Point(50, -37);    break;
-                case "Suisse":      pGeo = new Point(47, 8);    break;
-                case "Allemagne":   pGeo = new Point(51, 0);   break;
-                case "Italie":      pGeo = new Point(42, 13);   break;
-                case "Pologne":     pGeo = new Point(52, 19);   break;
-                case "Chine":       pGeo = new Point(34, 103);  break;
-                case "Russie":       pGeo = new Point(53, 103);  break;
-                default:            pGeo = new Point(45, 50);    break;
+                case "Canada":
+                    pGeo = new Point(54, -100);
+                    break;
+                case "U.S.A":
+                    pGeo = new Point(39, -97);
+                    break;
+                case "Royaume-Uni":
+                    pGeo = new Point(54, -50);
+                    break;
+                case "Espagne":
+                    pGeo = new Point(39, -30);
+                    break;
+                case "France":
+                    pGeo = new Point(50, -37);
+                    break;
+                case "Suisse":
+                    pGeo = new Point(47, 8);
+                    break;
+                case "Allemagne":
+                    pGeo = new Point(51, 0);
+                    break;
+                case "Italie":
+                    pGeo = new Point(42, 13);
+                    break;
+                case "Pologne":
+                    pGeo = new Point(52, 19);
+                    break;
+                case "Chine":
+                    pGeo = new Point(34, 103);
+                    break;
+                case "Russie":
+                    pGeo = new Point(53, 103);
+                    break;
+                default:
+                    pGeo = new Point(45, 50);
+                    break;
             }
 
             // --- AJUSTEMENT POUR RÉSOLUTION 1920 x 1080 ---
@@ -74,13 +103,13 @@ public class CarteApp extends JPanel {
             // 1. Longitude (X) : Plage d'entrée approx. [-100, 103] => Amplitude de 203
             // On veut étaler ça sur environ 1600 pixels (pour laisser des marges)
             // Ratio : 1600 / 203 ≈ 7.8
-            int x = (int)((pGeo.y + 100) * 7.8) + 160;
+            int x = (int) ((pGeo.y + 100) * 7.8) + 160;
 
             // 2. Latitude (Y) : Plage d'entrée approx. [34, 54] => Amplitude de 20
             // On veut étaler ça sur environ 800 pixels
             // Ratio : 800 / 20 = 40
             // Inversion Java : (MaxLatitude - pGeo.x)
-            int y = (int)((54 - pGeo.x) * 40.0) + 140;
+            int y = (int) ((54 - pGeo.x) * 40.0) + 140;
 
             positions.put(t, new Point(x, y));
         }
@@ -174,8 +203,9 @@ public class CarteApp extends JPanel {
             g2d.setColor(Color.WHITE);
             String txt = t.getNom();
             int largeurTxt = g2d.getFontMetrics().stringWidth(txt);
-            g2d.drawString(txt, p.x - (largeurTxt /4), p.y + 20);
+            g2d.drawString(txt, p.x - (largeurTxt / 4), p.y + 20);
         }
+
 
         // 3. Interface HUD
         dessinerHUD(g2d);
@@ -204,6 +234,51 @@ public class CarteApp extends JPanel {
         }
     }
 
+    //aider de copilot
+    public void paintSergent(Graphics g) {
+        super.paintComponent(g);
+        g.setColor(Color.BLACK);
+        g.drawOval(180, 80, 40, 40);
+        g.drawLine(200, 120, 200, 180);
+        g.drawLine(200, 140, 170, 160);
+        g.drawLine(200, 140, 230, 160);
+        g.drawLine(200, 180, 180, 220);
+        g.drawLine(200, 180, 180, 220);
+        g.drawLine(200, 180, 220, 220);
+
+        g.setColor(new Color(255, 255, 200));
+        g.fillRoundRect(100, 20, 200, 40, 15, 15);
+        g.setColor(Color.BLACK);
+        g.drawRoundRect(100, 20, 200, 40, 15, 15);
+
+        g.drawString(message, 110, 45);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String[] dialogues = {
+                "Le monde est en guerre.\n" +
+                        "Chacun pour soi, aucune pitié.\n" +
+                        "\n" +
+                        "Prenez vos territoires, attaquez sans hésiter…\n" +
+                        "et dominez la carte.\n" +
+                        "\n" +
+                        "Que le meilleur stratège gagne.",
+                "avant de ce lancer dans la parti, voici un résumer du déroulement:\n" +
+                        "\n-01)Objectif du jeu : Chaque joueur doit réaliser son objectif" +
+                        " \nsecret ou conquérir le monde entier selon la variante choisie. " +
+                        "-\n2)Mécanique principale : Les joueurs choisissent une couleur, prennent leurs " +
+                        "\narmées et doivent remplir leur mission secrète ou éliminer tous leurs adversaires." +
+                        "\n-3)Renforts : Les joueurs peuvent obtenir des renforts en fonction de la taille de leurs territoires et des cartes de renforts." +
+                        "\n-4)Combats : Les joueurs lancent des dés pour attaquer et " +
+                        "\ndéfendre leurs territoires, avec des combats qui peuvent" +
+                        " \nmener à la conquête de territoires. "
+        };
+        step = (step + 1) % dialogues.length;
+        message = dialogues[step];
+        repaint();
+    }
+
     /**
      * Point d'entrée utilitaire de la vue.
      *
@@ -217,4 +292,6 @@ public class CarteApp extends JPanel {
     public static void main(String[] args) {
 
     }
+
+
 }
