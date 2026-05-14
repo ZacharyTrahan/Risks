@@ -65,7 +65,8 @@ public class CarteApp extends JPanel {
                 case "Italie":      pGeo = new Point(42, 13);   break;
                 case "Pologne":     pGeo = new Point(52, 19);   break;
                 case "Chine":       pGeo = new Point(34, 103);  break;
-                default:            pGeo = new Point(45, -10);    break;
+                case "Russie":       pGeo = new Point(53, 103);  break;
+                default:            pGeo = new Point(45, 50);    break;
             }
 
             // --- AJUSTEMENT POUR RÉSOLUTION 1920 x 1080 ---
