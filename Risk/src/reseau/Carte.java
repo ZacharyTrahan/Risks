@@ -125,10 +125,14 @@ public class Carte implements java.io.Serializable {
                     if (attaquant.getnBInfanterie() <= 1) {
                         throw new IllegalArgumentException("L'attaquant :" + attaquant.getNom() + "doit avoir au minimum : " + MINIMAL_INFANTERIE);
                     } else {
-                        if (attaquant.getnBInfanterie() > defendant.getnBInfanterie()) {
+                        if (attaquant.getnBInfanterie() > (1+defendant.getnBInfanterie())) {
                             defendant.setnBInfanterie(((attaquant.getnBInfanterie() - defendant.getnBInfanterie()) - 1));
                             attaquant.setnBInfanterie(1);
                             defendant.setEtat(attaquant.getEtat());
+                            System.out.println("Attaque réussie!");
+                        }
+                        else {
+                            System.out.println("Attaque échouée!");
                         }
                     }
 
@@ -145,7 +149,7 @@ public class Carte implements java.io.Serializable {
 
     public void transferer(Territoire donneur, Territoire receveur) {
         if (connexions.containsKey(donneur) && connexions.containsKey(receveur)) {
-            if (!donneur.getEtat().equals(receveur.getEtat())) {
+            if (donneur.getEtat().equals(receveur.getEtat())) {
                 if (!connexions.get(donneur).contains(receveur)) {
                     throw new IllegalArgumentException("Le donneur :" + donneur.getNom() + " doit avoir un lien avec le receveur :" + receveur.getNom());
                 } else {
@@ -157,7 +161,7 @@ public class Carte implements java.io.Serializable {
                     }
                 }
             } else {
-                throw new IllegalArgumentException("Tu ne peut pas donner des troupes à ton propre pays petit baka!");
+                throw new IllegalArgumentException("Tu ne peut pas donner des troupes qui ne t'appartient pas !!");
             }
         }
     }
