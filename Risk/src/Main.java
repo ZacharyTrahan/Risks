@@ -36,7 +36,7 @@ public class Main {
         File dir = new File("Risk/src/donnees");
         if (!dir.exists()) dir.mkdirs();
 
-        system.demanderFichierAOuvrire();
+        system.afficherCarte();
         creationMap();
 
     }

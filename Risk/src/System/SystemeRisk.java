@@ -132,6 +132,7 @@ public class SystemeRisk {
 
     public void afficherCarte() throws IOException {
         String dossier = "Risk/src/donnees/";
+
         try {
             // 1. Lister les fichiers disponibles
             File dir = new File(dossier);
@@ -142,7 +143,14 @@ public class SystemeRisk {
                 return;
             }
 
-            int choix = 1;
+            System.out.println("=== Fichiers de réseaux disponibles ===");
+            for (int i = 0; i < fichiers.length; i++) {
+                System.out.println((i + 1) + ". " + fichiers[i].getName());
+            }
+
+            // 2. Demander le choix à l'utilisateur
+            System.out.print("\nQuel fichier voulez-vous charger ? (entrez le numéro) : ");
+            int choix = scanner.nextInt();
             String nomFichierSelectionne = fichiers[choix - 1].getPath();
 
             // 3. Charger et afficher
@@ -465,29 +473,6 @@ public class SystemeRisk {
 
 
     }
-    public void demanderFichierAOuvrire() throws IOException, ClassNotFoundException {
-        String dossier = "src/donnees";
-        // 1. Lister les fichiers disponibles
-        File dir = new File(dossier);
-        File[] fichiers = dir.listFiles((d, name) -> name.endsWith(".ser"));
 
-        if (fichiers == null || fichiers.length == 0) {
-            System.out.println("Aucun fichier de réseau (.ser) trouvé dans " + dossier);
-            return;
-        }
-
-        System.out.println("=== Fichiers de réseaux disponibles ===");
-        for (int i = 0; i < fichiers.length; i++) {
-            System.out.println((i + 1) + ". " + fichiers[i].getName());
-        }
-
-        // 2. Demander le choix à l'utilisateur
-        System.out.print("\nQuel fichier voulez-vous charger ? (entrez le numéro) : ");
-        int choix = scanner.nextInt();
-        String nomFichierSelectionne = fichiers[choix - 1].getPath();
-
-        // 3. Charger et afficher
-        Carte reseauALire = Carte.charger(nomFichierSelectionne);
-    }
 
 }
