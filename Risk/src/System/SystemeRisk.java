@@ -354,7 +354,7 @@ public class SystemeRisk {
             if(action == 4){
                 System.out.println("Quel nom voulez vous ?");
                 String nom = scanner.nextLine().trim();
-                maCarte.sauvegarder("Risk/src/donnees/map_europe_" + nom.trim()  +" .ser");
+                maCarte.sauvegarder("Risk/src/donnees/map_europe_" + nom.trim()  +".ser");
                 System.exit(0);
             }
         } while (serrure3);
