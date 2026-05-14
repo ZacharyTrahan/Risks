@@ -221,13 +221,13 @@ public class SystemeRisk {
 
     }
 
-    public void choixAction(int j, Carte maCarte, int joueur) {
+    public void choixAction(int action, Carte maCarte, int joueur) throws IOException {
 
         boolean serrure3 = true;
 
         do {
 
-            if (j == 1) {
+            if (action == 1) {
 
 
                 afficherListe(maCarte);
@@ -280,27 +280,72 @@ public class SystemeRisk {
 
 
             }
-            if (j == 2) {
+            if (action == 2) {
+
                 afficherListe(maCarte);
-                System.out.println("Quel est ");
+                System.out.println("Quel pays voulez-vous utiliser pour receveur ?");
                 int choix = -1;
                 try {
                     choix = Integer.parseInt(scanner.nextLine().trim());
                 } catch (NumberFormatException e) {
                     System.out.println("Vous devez mettre un nombre.");
                 }
-                Territoire attaquant = null;
+                Territoire receveur = null;
                 try {
-                    attaquant = choixPays(choix, maCarte);
+                    receveur = choixPays(choix, maCarte);
+                    if (!etats[joueur].equals(receveur.getEtat())) {
+                        System.out.println(("Tu ne peux pas utilisé un pays que tu ne contrôle pas ."));
+                        receveur = null;
+                    }
                 } catch (NullPointerException e) {
                     System.out.println("Vous devez mettre un nombre valable");
 
                 }
+                if (receveur != null) {
+
+
+                    System.out.println("Quel pays voulez-vous  pour envoyer ? ?");
+                    try {
+                        choix = Integer.parseInt(scanner.nextLine().trim());
+
+                    } catch (NumberFormatException e) {
+                        System.out.println("Vous devez mettre un nombre.");
+                    }
+                    Territoire envoyeur = null;
+                    try {
+                        envoyeur = choixPays(choix, maCarte);
+                        if (!etats[joueur].equals(envoyeur.getEtat())) {
+                            System.out.println(("Tu ne peux pas utilisé un pays que tu ne contrôle pas ."));
+                            envoyeur = null;
+                        }
+                    } catch (NullPointerException e) {
+                        System.out.println("Vous devez mettre un nombre valable");
+
+                    }
+                    try {
+                        if (envoyeur != null && receveur != null) {
+                            maCarte.transferer( envoyeur, receveur);
+                            serrure3 = false;
+                        } else {
+                            throw new IllegalArgumentException("L'attaque a échoué, veuillez réessayer.");
+                        }
+
+                    } catch (IllegalArgumentException e) {
+                        System.out.println(e.getMessage());
+                    }
+
+                }
+                if(action == 3){
+                    System.out.println("Le tour est passé...");
+                }
+                if(action == 4){
+                    System.out.println("Quel nom voulez vous ?");
+                     String nom = scanner.nextLine().trim();
+                    maCarte.sauvegarder("Risk/src/donnees/map_europe_" + nom  +" .ser");
+                }
+
 
             }
-
-
-
         } while (serrure3);
     }
 
