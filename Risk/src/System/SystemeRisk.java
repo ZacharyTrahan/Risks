@@ -335,16 +335,19 @@ public class SystemeRisk {
                     }
 
                 }
-                if(action == 3){
-                    System.out.println("Le tour est passé...");
-                }
-                if(action == 4){
-                    System.out.println("Quel nom voulez vous ?");
-                     String nom = scanner.nextLine().trim();
-                    maCarte.sauvegarder("Risk/src/donnees/map_europe_" + nom  +" .ser");
-                }
 
 
+
+            }
+            if(action == 3){
+                System.out.println("Le tour est passé...");
+                serrure3 = false;
+            }
+            if(action == 4){
+                System.out.println("Quel nom voulez vous ?");
+                String nom = scanner.nextLine().trim();
+                maCarte.sauvegarder("Risk/src/donnees/map_europe_" + nom.trim()  +" .ser");
+                System.exit(0);
             }
         } while (serrure3);
     }

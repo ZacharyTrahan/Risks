@@ -5,6 +5,7 @@ import reseau.*;
 
 import javax.swing.*;
 import java.io.File;
+import java.io.IOException;
 import java.util.Scanner;
 
 import System.SystemeRisk;
@@ -19,6 +20,7 @@ import System.SystemeRisk;
 public class Main {
     public static final Scanner scanner = new Scanner(System.in);
     public static Carte maCarte = new Carte();
+    public static SystemeRisk system = new SystemeRisk();
     public static JFrame frame;
     public static CarteApp appInstance;
 
@@ -28,11 +30,15 @@ public class Main {
      * @param args arguments de ligne de commande
      */
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
         // Création du dossier de données s'il n'existe pas
+
         File dir = new File("Risk/src/donnees");
         if (!dir.exists()) dir.mkdirs();
+
+        system.demanderFichierAOuvrire();
         creationMap();
+
     }
 
     public static void creationMap() {
@@ -102,7 +108,7 @@ public class Main {
             //IA
 
 
-            SystemeRisk system = new SystemeRisk();
+
             system.gameOn(maCarte, appInstance);
 
 
