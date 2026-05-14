@@ -198,6 +198,7 @@ public class CarteApp extends JPanel {
         if (territoireSelectionne != null) {
             g2d.drawString("Territoire : " + territoireSelectionne.getNom(), 35, 75);
             g2d.drawString("État : " + territoireSelectionne.getEtat(), 35, 95);
+            g2d.drawString("Nombre de troupes : " + territoireSelectionne.getnBInfanterie(), 35, 115);
         } else {
             g2d.drawString("Sélectionnez un territoire...", 35, 75);
         }

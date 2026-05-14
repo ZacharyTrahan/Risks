@@ -47,7 +47,7 @@ public class SystemeRisk {
     /**
      * Demande à l'utilisateur de créer les joueurs et d'attribuer un territoire de départ à chacun.
      *
-     * @param maCarte carte du jeu
+     * @param maCarte     carte du jeu
      * @param appInstance interface Swing à rafraîchir après les choix
      */
 
@@ -66,8 +66,8 @@ public class SystemeRisk {
             }
 
             try {
-                if (nbJoueur > (etats.length-1) || nbJoueur <= 0) {
-                    throw new IllegalArgumentException("Le nombre de maximum de joueurs est de " + (etats.length-1) + ".");
+                if (nbJoueur > (etats.length - 1) || nbJoueur <= 0) {
+                    throw new IllegalArgumentException("Le nombre de maximum de joueurs est de " + (etats.length - 1) + ".");
 
                 } else {
 
@@ -85,23 +85,24 @@ public class SystemeRisk {
                             } catch (NumberFormatException e) {
                                 System.out.println("Vous devez mettre un nombre.");
                             }
-                            Territoire reponse = null; 
+                            Territoire reponse = null;
                             try {
-                                 reponse = choixPays(choix, maCarte);
+                                reponse = choixPays(choix, maCarte);
                             } catch (NullPointerException e) {
-                                System.out.println("Vous devez mettre un nombre valable");;
+                                System.out.println("Vous devez mettre un nombre valable");
+                                ;
                             }
                             try {
                                 if (reponse != null) {
-                                    
-                                
-                                if (reponse.getEtat().equals(Etat.NEUTRE)) {
-                                    reponse.setEtat(etats[i]);
-                                    appInstance.repaint();
-                                    serrure2 = false;
-                                } else {
-                                    throw new IllegalArgumentException("Le territoire ne doit pas être pris par quelqu'un d'autres");
-                                }
+
+
+                                    if (reponse.getEtat().equals(Etat.NEUTRE)) {
+                                        reponse.setEtat(etats[i]);
+                                        appInstance.repaint();
+                                        serrure2 = false;
+                                    } else {
+                                        throw new IllegalArgumentException("Le territoire ne doit pas être pris par quelqu'un d'autres");
+                                    }
                                 }
                             } catch (IllegalArgumentException e) {
                                 System.out.println(e.getMessage());
@@ -180,7 +181,7 @@ public class SystemeRisk {
     /**
      * Retourne le territoire correspondant au choix utilisateur.
      *
-     * @param choix numéro choisi par l'utilisateur
+     * @param choix   numéro choisi par l'utilisateur
      * @param maCarte carte contenant les territoires
      * @return territoire sélectionné, ou {@code null} si le choix est invalide
      */
@@ -220,12 +221,79 @@ public class SystemeRisk {
 
     }
 
+    public void choixAction(int j,Carte maCarte,int tourDuJour) {
+
+        boolean serrure3 = true;
+
+        do {
+
+            if (j == 1) {
+
+
+                afficherListe(maCarte);
+                int choix = -1;
+                try {
+                    choix = Integer.parseInt(scanner.nextLine().trim());
+                } catch (NumberFormatException e) {
+                    System.out.println("Vous devez mettre un nombre.");
+                }
+                Territoire attaquant = null;
+                try {
+                    attaquant = choixPays(choix, maCarte);
+                } catch (NullPointerException e) {
+                    System.out.println("Vous devez mettre un nombre valable");
+
+                }
+                System.out.println("Quel pays voulez-vous  attaquer ? ?");
+                try {
+                    choix = Integer.parseInt(scanner.nextLine().trim());
+                } catch (NumberFormatException e) {
+                    System.out.println("Vous devez mettre un nombre.");
+                }
+                Territoire defendant = null;
+                try {
+                    defendant = choixPays(choix, maCarte);
+                } catch (NullPointerException e) {
+                    System.out.println("Vous devez mettre un nombre valable");
+
+                }
+                try {
+                    if (defendant != null && attaquant != null) {
+
+
+                        if (reponse.getEtat().equals(Etat.NEUTRE)) {
+                            reponse.setEtat(etats[i]);
+                            appInstance.repaint();
+                            serrure2 = false;
+                        } else {
+                            throw new IllegalArgumentException("Le territoire ne doit pas être pris par quelqu'un d'autres");
+                        }
+                    }
+                } catch (IllegalArgumentException e) {
+                    System.out.println(e.getMessage());
+                }
+
+
+
+            }
+            if (choice.equalsIgnoreCase("R")) {
+                serrure3 = false;
+            } else {
+                throw new IllegalArgumentException("Caractère impossible, veuillez réessayer avec les lettres permises.");
+            }
+
+        } while (serrure3);
+
+
+
+    }
+
     /**
      * Lance la boucle principale du jeu.
      *
-     * @param maCarte carte du jeu
+     * @param maCarte     carte du jeu
      * @param appInstance interface Swing à actualiser
-     * @throws IOException si un chargement ou une sauvegarde échoue
+     * @throws IOException          si un chargement ou une sauvegarde échoue
      * @throws InterruptedException si l'affichage de l'introduction est interrompu
      */
 
