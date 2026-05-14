@@ -221,7 +221,7 @@ public class SystemeRisk {
 
     }
 
-    public void choixAction(int j,Carte maCarte,int tourDuJour) {
+    public void choixAction(int j, Carte maCarte, int joueur) {
 
         boolean serrure3 = true;
 
@@ -231,6 +231,58 @@ public class SystemeRisk {
 
 
                 afficherListe(maCarte);
+                System.out.println("Quel pays voulez-vous utiliser pour attaquer ?");
+                int choix = -1;
+                try {
+                    choix = Integer.parseInt(scanner.nextLine().trim());
+                } catch (NumberFormatException e) {
+                    System.out.println("Vous devez mettre un nombre.");
+                }
+                Territoire attaquant = null;
+                try {
+                    attaquant = choixPays(choix, maCarte);
+                    if (!etats[joueur].equals(attaquant.getEtat())) {
+                        System.out.println(("Tu ne peux pas utilisé un pays que tu ne contrôle pas ."));
+                        attaquant = null;
+                    }
+                } catch (NullPointerException e) {
+                    System.out.println("Vous devez mettre un nombre valable");
+
+                }
+                if (attaquant != null) {
+
+
+                    System.out.println("Quel pays voulez-vous  attaquer ? ?");
+                    try {
+                        choix = Integer.parseInt(scanner.nextLine().trim());
+                    } catch (NumberFormatException e) {
+                        System.out.println("Vous devez mettre un nombre.");
+                    }
+                    Territoire defendant = null;
+                    try {
+                        defendant = choixPays(choix, maCarte);
+                    } catch (NullPointerException e) {
+                        System.out.println("Vous devez mettre un nombre valable");
+
+                    }
+                    try {
+                        if (defendant != null && attaquant != null) {
+                            maCarte.attaquer(attaquant, defendant);
+                            serrure3 = false;
+                        } else {
+                            throw new IllegalArgumentException("L'attaque a échoué, veuillez réessayer.");
+                        }
+
+                    } catch (IllegalArgumentException e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
+
+
+            }
+            if (j == 2) {
+                afficherListe(maCarte);
+                System.out.println("Quel est ");
                 int choix = -1;
                 try {
                     choix = Integer.parseInt(scanner.nextLine().trim());
@@ -244,49 +296,14 @@ public class SystemeRisk {
                     System.out.println("Vous devez mettre un nombre valable");
 
                 }
-                System.out.println("Quel pays voulez-vous  attaquer ? ?");
-                try {
-                    choix = Integer.parseInt(scanner.nextLine().trim());
-                } catch (NumberFormatException e) {
-                    System.out.println("Vous devez mettre un nombre.");
-                }
-                Territoire defendant = null;
-                try {
-                    defendant = choixPays(choix, maCarte);
-                } catch (NullPointerException e) {
-                    System.out.println("Vous devez mettre un nombre valable");
-
-                }
-                try {
-                    if (defendant != null && attaquant != null) {
-
-
-                        if (reponse.getEtat().equals(Etat.NEUTRE)) {
-                            reponse.setEtat(etats[i]);
-                            appInstance.repaint();
-                            serrure2 = false;
-                        } else {
-                            throw new IllegalArgumentException("Le territoire ne doit pas être pris par quelqu'un d'autres");
-                        }
-                    }
-                } catch (IllegalArgumentException e) {
-                    System.out.println(e.getMessage());
-                }
-
-
 
             }
-            if (choice.equalsIgnoreCase("R")) {
-                serrure3 = false;
-            } else {
-                throw new IllegalArgumentException("Caractère impossible, veuillez réessayer avec les lettres permises.");
-            }
+
+
 
         } while (serrure3);
-
-
-
     }
+
 
     /**
      * Lance la boucle principale du jeu.
@@ -318,6 +335,7 @@ public class SystemeRisk {
 
                     } else {
                         actionJoueur(choix);
+                        choixAction(choix, maCarte, i);
                     }
                 } catch (IllegalArgumentException e) {
                     System.out.println(e.getMessage());
@@ -378,15 +396,15 @@ public class SystemeRisk {
         switch (choix) {
             case 1:
                 System.out.println("Vous avez choisi : L'Attaque");
-
+                break;
 
             case 2:
                 System.out.println("Vous avez choisi : Le transfère");
-
+                break;
 
             case 3:
                 System.out.println("Vous avez choisi : Passer son tour");
-
+                break;
 
             case 4:
                 System.out.println("Vous avez choisi Sauvegarder");

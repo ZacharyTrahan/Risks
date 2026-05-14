@@ -35,8 +35,6 @@ public class Main {
         creationMap();
     }
 
-
-
     public static void creationMap() {
         // 1. Création de quelques territoires
         //si temps rendre la creation de pays en lecture de Fichier ou faire un tableau

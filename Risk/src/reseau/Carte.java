@@ -126,8 +126,8 @@ public class Carte implements java.io.Serializable {
                         throw new IllegalArgumentException("L'attaquant :" + attaquant.getNom() + "doit avoir au minimum : " + MINIMAL_INFANTERIE);
                     } else {
                         if (attaquant.getnBInfanterie() > defendant.getnBInfanterie()) {
-                            attaquant.setnBInfanterie(1);
                             defendant.setnBInfanterie(((attaquant.getnBInfanterie() - defendant.getnBInfanterie()) - 1));
+                            attaquant.setnBInfanterie(1);
                             defendant.setEtat(attaquant.getEtat());
                         }
                     }
