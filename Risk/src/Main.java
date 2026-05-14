@@ -29,12 +29,15 @@ public class Main {
      */
 
     public static void main(String[] args) {
-
         // Création du dossier de données s'il n'existe pas
         File dir = new File("Risk/src/donnees");
         if (!dir.exists()) dir.mkdirs();
+        creationMap();
+    }
 
 
+
+    public static void creationMap() {
         // 1. Création de quelques territoires
         //si temps rendre la creation de pays en lecture de Fichier ou faire un tableau
         Territoire france = new Territoire("France");
@@ -50,8 +53,6 @@ public class Main {
         Territoire chine = new Territoire("Chine");
         Territoire suisse = new Territoire("Suisse");
 
-
-
         // 2. Ajout au réseau
         maCarte.ajouterTerritoire(france);
         maCarte.ajouterTerritoire(espagne);
@@ -66,8 +67,6 @@ public class Main {
         maCarte.ajouterTerritoire(chine);
         maCarte.ajouterTerritoire(suisse);
 
-
-        // 3. Création des frontières (liens)
         try {
             maCarte.lierTerritoire(canada, france);
             maCarte.lierTerritoire(canada, usa);
@@ -88,9 +87,8 @@ public class Main {
             maCarte.lierTerritoire(pologne, serbie);
             maCarte.lierTerritoire(russie, serbie);
             maCarte.lierTerritoire(russie, chine);
-            maCarte.lierTerritoire(chine,serbie);
-            maCarte.lierTerritoire(espagne,italie);
-
+            maCarte.lierTerritoire(chine, serbie);
+            maCarte.lierTerritoire(espagne, italie);
 
             // Sauvegarde de la carte initiale
             maCarte.sauvegarder("Risk/src/donnees/map_europe.ser");
@@ -113,9 +111,5 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
-
-
 }
