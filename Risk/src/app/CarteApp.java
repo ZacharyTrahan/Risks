@@ -11,6 +11,13 @@ import java.io.File;
 import java.util.*;
 
 /**
+ * Composant Swing chargé d'afficher la carte du jeu.
+ *
+ * <p>La vue dessine les territoires, les frontières et une petite interface
+ * HUD pour montrer le territoire sélectionné.</p>
+ */
+
+/**
  * Version exécutable de l'affichage du jeu Risk.
  * Cette classe contient maintenant son propre main pour lancer la fenêtre.
  */
@@ -19,6 +26,12 @@ public class CarteApp extends JPanel {
     private final Carte carte;
     private final Map<Territoire, Point> positions;
     private Territoire territoireSelectionne = null;
+
+    /**
+     * Construit la vue de la carte.
+     *
+     * @param carte carte à afficher
+     */
 
     public CarteApp(Carte carte) {
         this.carte = carte;
@@ -29,6 +42,13 @@ public class CarteApp extends JPanel {
         genererPositionsEnCercle();
         setupMouseListener();
     }
+
+    /**
+     * Calcule les positions d'affichage des territoires.
+     *
+     * <p>Les positions sont générées à partir du nom des territoires afin d'obtenir
+     * un placement stable à l'écran.</p>
+     */
 
     private void genererPositionsEnCercle() {
         for (Territoire t : carte.getConnexions().keySet()) {
@@ -65,6 +85,10 @@ public class CarteApp extends JPanel {
         }
     }
 
+    /**
+     * Installe l'écouteur de souris pour sélectionner un territoire.
+     */
+
     private void setupMouseListener() {
         this.addMouseListener(new MouseAdapter() {
             @Override
@@ -85,6 +109,12 @@ public class CarteApp extends JPanel {
             }
         });
     }
+
+    /**
+     * Dessine la carte, les frontières, les territoires et l'HUD.
+     *
+     * @param g contexte graphique Swing
+     */
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -150,6 +180,12 @@ public class CarteApp extends JPanel {
         dessinerHUD(g2d);
     }
 
+    /**
+     * Dessine le panneau d'information en haut à gauche.
+     *
+     * @param g2d contexte graphique 2D
+     */
+
     private void dessinerHUD(Graphics2D g2d) {
         g2d.setColor(new Color(0, 0, 0, 180));
         g2d.fillRect(20, 20, 300, 100);
@@ -165,6 +201,15 @@ public class CarteApp extends JPanel {
             g2d.drawString("Sélectionnez un territoire...", 35, 75);
         }
     }
+
+    /**
+     * Point d'entrée utilitaire de la vue.
+     *
+     * <p>Charge une carte sérialisée depuis le dossier des données et affiche
+     * la fenêtre Swing correspondante.</p>
+     *
+     * @param args arguments de ligne de commande
+     */
 
     // --- LE MAIN POUR LANCER L'APPLICATION ---
     public static void main(String[] args) {

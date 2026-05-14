@@ -9,11 +9,24 @@ import java.util.Scanner;
 
 import System.SystemeRisk;
 
+/**
+ * Point d'entrée de l'application Risk.
+ *
+ * <p>Prépare les données, construit la carte initiale, sauvegarde la carte
+ * de départ puis lance l'interface et le moteur de jeu.</p>
+ */
+
 public class Main {
     public static final Scanner scanner = new Scanner(System.in);
     public static Carte maCarte = new Carte();
     public static JFrame frame;
     public static CarteApp appInstance;
+
+    /**
+     * Lance le programme principal.
+     *
+     * @param args arguments de ligne de commande
+     */
 
     public static void main(String[] args) {
 

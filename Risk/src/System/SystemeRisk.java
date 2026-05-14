@@ -10,13 +10,46 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * Contient la logique principale du jeu Risk.
+ *
+ * <p>Cette classe gère la création des joueurs, la sélection des territoires,
+ * l'affichage des actions possibles et le déroulement global de la partie.</p>
+ */
+
 public class SystemeRisk {
+
+    /**
+     * Tableau des états disponibles pour les joueurs.
+     */
+
     public static final Etat[] etats = Etat.values();
+
+    /**
+     * Lit les entrées utilisateur.
+     */
+
     public static final Scanner scanner = new Scanner(System.in);
+
+    /**
+     * Nombre de joueurs choisis pour la partie.
+     */
+
     private double nbJoueur;
+
+    /**
+     * Construit le moteur de jeu.
+     */
 
     public SystemeRisk() {
     }
+
+    /**
+     * Demande à l'utilisateur de créer les joueurs et d'attribuer un territoire de départ à chacun.
+     *
+     * @param maCarte carte du jeu
+     * @param appInstance interface Swing à rafraîchir après les choix
+     */
 
     //1.1 Création des joueurs
     public void creationJoueur(Carte maCarte, CarteApp appInstance) {
@@ -90,6 +123,12 @@ public class SystemeRisk {
         } while (serrure);
     }
 
+    /**
+     * Affiche la liste des cartes sauvegardées et ouvre la carte choisie.
+     *
+     * @throws IOException si la lecture du fichier échoue
+     */
+
     public void afficherCarte() throws IOException {
         String dossier = "Risk/src/donnees/";
         try {
@@ -123,6 +162,12 @@ public class SystemeRisk {
         }
     }
 
+    /**
+     * Affiche les territoires disponibles dans la carte.
+     *
+     * @param maCarte carte à lister
+     */
+
     public void afficherListe(Carte maCarte) {
         int nombre = 1;
         for (Map.Entry<Territoire, TreeSet<Territoire>> entry : maCarte.getConnexions().entrySet()) {
@@ -131,6 +176,14 @@ public class SystemeRisk {
         }
 
     }
+
+    /**
+     * Retourne le territoire correspondant au choix utilisateur.
+     *
+     * @param choix numéro choisi par l'utilisateur
+     * @param maCarte carte contenant les territoires
+     * @return territoire sélectionné, ou {@code null} si le choix est invalide
+     */
 
     public Territoire choixPays(int choix, Carte maCarte) {
         List<Territoire> territoires = new ArrayList<>(maCarte.getConnexions().keySet());
@@ -147,6 +200,12 @@ public class SystemeRisk {
         return territoireChoisi;
     }
 
+    /**
+     * Affiche le menu d'actions d'un joueur.
+     *
+     * @param j index du joueur dans le tableau des états
+     */
+
     public void afficheActionJoueur(int j) {
 
 
@@ -160,6 +219,15 @@ public class SystemeRisk {
 
 
     }
+
+    /**
+     * Lance la boucle principale du jeu.
+     *
+     * @param maCarte carte du jeu
+     * @param appInstance interface Swing à actualiser
+     * @throws IOException si un chargement ou une sauvegarde échoue
+     * @throws InterruptedException si l'affichage de l'introduction est interrompu
+     */
 
     public void gameOn(Carte maCarte, CarteApp appInstance) throws IOException, InterruptedException {
         logiqueJeu();
@@ -193,6 +261,12 @@ public class SystemeRisk {
         } while (!victoire());
     }
 
+    /**
+     * Affiche le texte d'introduction et le résumé des règles.
+     *
+     * @throws InterruptedException si l'attente entre les messages est interrompue
+     */
+
     public void logiqueJeu() throws InterruptedException {
         System.out.println("=== LOGIQUE DE JEU ===");
 
@@ -215,10 +289,22 @@ public class SystemeRisk {
                 " \nmener à la conquête de territoires. ");
     }
 
+    /**
+     * Indique si la partie est gagnée.
+     *
+     * @return {@code true} si une condition de victoire est remplie, sinon {@code false}
+     */
+
     public boolean victoire() {
 
         return false;
     }
+
+    /**
+     * Exécute l'action choisie par le joueur.
+     *
+     * @param choix numéro de l'action choisie
+     */
 
     public void actionJoueur(int choix) {
         switch (choix) {
