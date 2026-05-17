@@ -393,6 +393,8 @@ public class SystemeRisk {
 
 
             for (int i = 0; i < nbJoueur; i++) {
+                renfortAleatoire(maCarte, i);
+
                 do {
 
 
@@ -517,6 +519,39 @@ public class SystemeRisk {
         return troupes;
     }
     //IA
+
+    public void renfortAleatoire(Carte maCarte, int indexJoueur) {
+        Etat nomJoueur = etats[indexJoueur];
+        List<Territoire> sesPays = new ArrayList<>();
+        for (Territoire t : maCarte.getConnexions().keySet()) {
+            if (t.getEtat().equals(nomJoueur)) {
+                sesPays.add(t);
+            }
+        }
+
+        if (!sesPays.isEmpty()) {
+            //IA
+            // Calcul du bonus (ex: nombre de pays / 3, minimum 3)
+
+            int bonus = Math.max(3, sesPays.size() / 3);
+
+            System.out.println("\n>>> Phase de renfort pour " + nomJoueur + " !");
+            System.out.println(">>> " + bonus + " troupes distribuées aléatoirement.");
+
+            for (int i = 0; i < bonus; i++) {
+                // Choix d'un index au hasard entre 0 et la taille de la liste - 1
+                int indexHasard = (int) (Math.random() * sesPays.size());
+                Territoire t = sesPays.get(indexHasard);
+
+                // On ajoute 1 troupe au pays tiré au sort
+                t.setnBInfanterie(t.getnBInfanterie() + 1);
+            }
+            //IA
+        }
+    }
+
+
+
 
 
 

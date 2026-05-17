@@ -132,7 +132,8 @@ public class Carte implements java.io.Serializable {
                             System.out.println("Attaque réussie!");
                         }
                         else {
-                            System.out.println("Attaque échouée! Perte de " + nb + "troupes sur le territoire allié " + attaquant.getNom());
+                            System.out.println("Attaque échouée! Perte de " + nb + " troupes sur le territoire allié " + attaquant.getNom());
+                            System.out.println("Défense réussit! Perte de " + nb + " troupes sur le territoire ennemi " + defendant.getNom());
                             //IA
                             int pertesDefenseur = Math.max(0, nb - 1);
                             defendant.setnBInfanterie(Math.max(1, defendant.getnBInfanterie() - pertesDefenseur));

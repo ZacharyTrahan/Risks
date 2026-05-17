@@ -17,8 +17,8 @@ public class Territoire implements Serializable, Comparable<Territoire> {
     private final static Etat ETAT_BASE = Etat.NEUTRE;
     private static final long serialVersionUID = 1L;
     private int nBInfanterie;
-    private static final int INTERVALMIN = 3;
-    private static final int INTERVALMAX = 5;
+    private static final int INTERVALMIN = 300;
+    private static final int INTERVALMAX = 5000;
 
 
 
