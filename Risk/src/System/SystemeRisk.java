@@ -275,8 +275,14 @@ public class SystemeRisk {
                     }
                     try {
                         if (defendant != null && attaquant != null) {
-                            maCarte.attaquer(attaquant, defendant);
-                            serrure3 = false;
+                            int maxAttaque = attaquant.getnBInfanterie() - 1;
+                            if (maxAttaque < 1) {
+                                System.out.println("Impossible d'attaquer : il faut au moins 2 troupes sur le pays.");
+                            } else {
+                                int nb = demanderNombreTroupes( "Combien de troupes pour l'attaque ?", 1, maxAttaque);
+                                maCarte.attaquer(attaquant, defendant,nb);
+                                serrure3 = false;
+                            }
                         } else {
                             throw new IllegalArgumentException("L'attaque a échoué, veuillez réessayer.");
                         }
@@ -332,10 +338,16 @@ public class SystemeRisk {
                     }
                     try {
                         if (envoyeur != null && receveur != null) {
-                            maCarte.transferer( envoyeur, receveur);
-                            serrure3 = false;
+                            int maxTransfert = envoyeur.getnBInfanterie() - 1;
+                            if (maxTransfert < 1) {
+                                System.out.println("Pas assez de troupes pour un transfert.");
+                            } else {
+                                int nb = demanderNombreTroupes( "Combien de troupes transférer ?", 1, maxTransfert);
+                                maCarte.transferer(envoyeur, receveur,nb);
+                                serrure3 = false;
+                            }
                         } else {
-                            throw new IllegalArgumentException("L'attaque a échoué, veuillez réessayer.");
+                            throw new IllegalArgumentException("Le transfer a échoué, veuillez réessayer.");
                         }
 
                     } catch (IllegalArgumentException e) {
@@ -376,7 +388,14 @@ public class SystemeRisk {
 
 
         do {
+            boolean serrure1 = true;
+
+
+
             for (int i = 0; i < nbJoueur; i++) {
+                do {
+
+
                 afficheActionJoueur(i);
                 int choix = -1;
                 try {
@@ -392,12 +411,15 @@ public class SystemeRisk {
                     } else {
                         actionJoueur(choix);
                         choixAction(choix, maCarte, i);
+                        serrure1 = false;
                     }
                 } catch (IllegalArgumentException e) {
                     System.out.println(e.getMessage());
                 }
+                }while(serrure1);
 
             }
+
 
 
         } while (!victoire());
@@ -473,6 +495,29 @@ public class SystemeRisk {
 
 
     }
+
+    //IA
+
+    public int demanderNombreTroupes(String message, int min, int max) {
+        int troupes = -1;
+        while (troupes < min || troupes > max) {
+            System.out.println(message + " (Entre " + min + " et " + max + ") :");
+            try {
+                troupes = Integer.parseInt(scanner.nextLine().trim());
+
+                if (troupes < min) {
+                    System.out.println("Erreur : Le minimum est de " + min + ".");
+                } else if (troupes > max) {
+                    System.out.println("Erreur : Vous n'avez que " + max + " troupes disponibles.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Erreur : Veuillez entrer un nombre entier (pas de lettres).");
+            }
+        }
+        return troupes;
+    }
+    //IA
+
 
 
 }

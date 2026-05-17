@@ -116,7 +116,7 @@ public class Carte implements java.io.Serializable {
      * @throws IllegalArgumentException si l'attaque est invalide
      */
 
-    public void attaquer(Territoire attaquant, Territoire defendant) {
+    public void attaquer(Territoire attaquant, Territoire defendant,int nb) {
         if (connexions.containsKey(attaquant) && connexions.containsKey(defendant)) {
             if (!attaquant.getEtat().equals(defendant.getEtat())) {
                 if ((!connexions.get(attaquant).contains(defendant))) {
@@ -125,14 +125,19 @@ public class Carte implements java.io.Serializable {
                     if (attaquant.getnBInfanterie() <= 1) {
                         throw new IllegalArgumentException("L'attaquant :" + attaquant.getNom() + "doit avoir au minimum : " + MINIMAL_INFANTERIE);
                     } else {
-                        if (attaquant.getnBInfanterie() > (1+defendant.getnBInfanterie())) {
-                            defendant.setnBInfanterie(((attaquant.getnBInfanterie() - defendant.getnBInfanterie()) - 1));
-                            attaquant.setnBInfanterie(1);
+                        if (nb > (defendant.getnBInfanterie())) {
+                            defendant.setnBInfanterie(((nb - defendant.getnBInfanterie())));
+                            attaquant.setnBInfanterie(attaquant.getnBInfanterie() - nb);
                             defendant.setEtat(attaquant.getEtat());
                             System.out.println("Attaque réussie!");
                         }
                         else {
-                            System.out.println("Attaque échouée!");
+                            System.out.println("Attaque échouée! Perte de " + nb + "troupes sur le territoire allié " + attaquant.getNom());
+                            //IA
+                            int pertesDefenseur = Math.max(0, nb - 1);
+                            defendant.setnBInfanterie(Math.max(1, defendant.getnBInfanterie() - pertesDefenseur));
+                            //IA
+                            attaquant.setnBInfanterie(attaquant.getnBInfanterie() - nb);
                         }
                     }
 
@@ -147,7 +152,7 @@ public class Carte implements java.io.Serializable {
         }
     }
 
-    public void transferer(Territoire donneur, Territoire receveur) {
+    public void transferer(Territoire donneur, Territoire receveur, int nb) {
         if (connexions.containsKey(donneur) && connexions.containsKey(receveur)) {
             if (donneur.getEtat().equals(receveur.getEtat())) {
                 if (!connexions.get(donneur).contains(receveur)) {
@@ -156,8 +161,8 @@ public class Carte implements java.io.Serializable {
                     if (donneur.getnBInfanterie() < MINIMAL_INFANTERIE) {
                         throw new IllegalArgumentException("Le donneur :" + donneur.getNom() + " doit avoir un minimum de :" + MINIMAL_INFANTERIE);
                     } else {
-                        receveur.setnBInfanterie(receveur.getnBInfanterie() + (donneur.getnBInfanterie() - 1));
-                        donneur.setnBInfanterie(1);
+                        receveur.setnBInfanterie(receveur.getnBInfanterie() + (nb));
+                        donneur.setnBInfanterie(donneur.getnBInfanterie()-nb);
                     }
                 }
             } else {
