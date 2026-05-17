@@ -279,8 +279,8 @@ public class SystemeRisk {
                             if (maxAttaque < 1) {
                                 System.out.println("Impossible d'attaquer : il faut au moins 2 troupes sur le pays.");
                             } else {
-                                int nb = demanderNombreTroupes( "Combien de troupes pour l'attaque ?", 1, maxAttaque);
-                                maCarte.attaquer(attaquant, defendant,nb);
+                                int nb = demanderNombreTroupes("Combien de troupes pour l'attaque ?", 1, maxAttaque);
+                                maCarte.attaquer(attaquant, defendant, nb);
                                 serrure3 = false;
                             }
                         } else {
@@ -342,8 +342,8 @@ public class SystemeRisk {
                             if (maxTransfert < 1) {
                                 System.out.println("Pas assez de troupes pour un transfert.");
                             } else {
-                                int nb = demanderNombreTroupes( "Combien de troupes transférer ?", 1, maxTransfert);
-                                maCarte.transferer(envoyeur, receveur,nb);
+                                int nb = demanderNombreTroupes("Combien de troupes transférer ?", 1, maxTransfert);
+                                maCarte.transferer(envoyeur, receveur, nb);
                                 serrure3 = false;
                             }
                         } else {
@@ -357,16 +357,15 @@ public class SystemeRisk {
                 }
 
 
-
             }
-            if(action == 3){
+            if (action == 3) {
                 System.out.println("Le tour est passé...");
                 serrure3 = false;
             }
-            if(action == 4){
+            if (action == 4) {
                 System.out.println("Quel nom voulez vous ?");
                 String nom = scanner.nextLine().trim();
-                maCarte.sauvegarder("Risk/src/donnees/map_europe_" + nom.trim()  +".ser");
+                maCarte.sauvegarder("Risk/src/donnees/map_europe_" + nom.trim() + ".ser");
                 System.exit(0);
             }
         } while (serrure3);
@@ -391,40 +390,41 @@ public class SystemeRisk {
             boolean serrure1 = true;
 
 
-
             for (int i = 0; i < nbJoueur; i++) {
                 renfortAleatoire(maCarte, i);
 
                 do {
 
 
-                afficheActionJoueur(i);
-                int choix = -1;
-                try {
-                    choix = Integer.parseInt(scanner.nextLine().trim());
-                } catch (NumberFormatException e) {
-                    System.out.println("Vous devez mettre un nombre.");
-                }
-
-                try {
-                    if (choix > 4 || choix <= 0) {
-                        throw new IllegalArgumentException("Vous devez choisir un des choix.");
-
-                    } else {
-                        actionJoueur(choix);
-                        choixAction(choix, maCarte, i);
-                        serrure1 = false;
+                    afficheActionJoueur(i);
+                    int choix = -1;
+                    try {
+                        choix = Integer.parseInt(scanner.nextLine().trim());
+                    } catch (NumberFormatException e) {
+                        System.out.println("Vous devez mettre un nombre.");
                     }
-                } catch (IllegalArgumentException e) {
-                    System.out.println(e.getMessage());
-                }
-                }while(serrure1);
+
+                    try {
+                        if (choix > 4 || choix <= 0) {
+                            throw new IllegalArgumentException("Vous devez choisir un des choix.");
+
+                        } else {
+                            actionJoueur(choix);
+                            choixAction(choix, maCarte, i);
+                            serrure1 = false;
+                        }
+                    } catch (IllegalArgumentException e) {
+                        System.out.println(e.getMessage());
+                    }
+                } while (serrure1);
 
             }
 
 
+        } while (!victoire(maCarte));
 
-        } while (!victoire());
+
+        System.out.println("Fin de partie");
     }
 
     /**
@@ -553,6 +553,25 @@ public class SystemeRisk {
 
 
 
+    public boolean victoire(Carte maCarte) {
+        if (maCarte.getConnexions().isEmpty()) return false;
 
+        //IA
+        Etat joueur = maCarte.getConnexions().keySet().iterator().next().getEtat();
+        //IA
+
+        for (Territoire t : maCarte.getConnexions().keySet()) {
+            if (!t.getEtat().equals(joueur)) {
+                return false;
+            }
+        }
+
+        System.out.println("\n*********************************");
+        System.out.println("LE JOUEUR " + joueur + " A GAGNÉ !");
+        System.out.println("*********************************\n");
+        return true;
+
+
+    }
 
 }
