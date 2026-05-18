@@ -122,7 +122,7 @@ public class Carte implements java.io.Serializable {
                 if ((!connexions.get(attaquant).contains(defendant))) {
                     throw new IllegalArgumentException("L'attaquant :" + attaquant.getNom() + " doit avoir un lien avec le défenseur  :" + defendant.getNom());
                 } else {
-                    if (attaquant.getnBInfanterie() <= 1) {
+                    if (attaquant.getnBInfanterie() < MINIMAL_INFANTERIE) {
                         throw new IllegalArgumentException("L'attaquant :" + attaquant.getNom() + "doit avoir au minimum : " + MINIMAL_INFANTERIE);
                     } else {
                         if (nb > (defendant.getnBInfanterie())) {
