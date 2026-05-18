@@ -567,8 +567,6 @@ public class SystemeRisk {
     }
 
 
-
-
     public boolean victoire(Carte maCarte) {
         if (maCarte.getConnexions().isEmpty()) return false;
 
@@ -582,9 +580,10 @@ public class SystemeRisk {
             }
         }
 
-        System.out.println("\n*********************************");
+
         System.out.println("LE JOUEUR " + joueur + " A GAGNÉ !");
-        System.out.println("*********************************\n");
+
+
         return true;
 
 
