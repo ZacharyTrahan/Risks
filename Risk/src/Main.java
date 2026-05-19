@@ -1,4 +1,4 @@
-//Code complet assisté par Gemini
+//Code  assisté par Gemini pour tout ce qui touche à l'affichage graphique (style l'application sur la mémoire vive)
 
 import app.CarteApp;
 import reseau.*;

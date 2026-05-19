@@ -40,6 +40,22 @@ public class SystemeRisk {
     /**
      * Construit le moteur de jeu.
      */
+    private static final int REDUCTION_PAYS_NEUTRE = 1;
+    private static final int BORNE_JOUEUR_MINIMAL = 0;
+    private static final int INITIALISATION_CHOIX = -1;
+    private static final int LONGUEUR_NOM_FICHIER = 0;
+    private static final int COMPTEUR_CHOIX = 1;
+    private static final int ACTION1 = 1;
+    private static final int ACTION2 = 2;
+    private static final int ACTION3 = 3;
+    private static final int ACTION4 = 4;
+    private static final int TOUS_LES_ACTIONS = 4;
+    private static final int AUCUNEACTION = 0;
+    private static final int REDUCTION_INFANTERIE = 1;
+    private static final int BORNE_INFANTERIE_MINIMAL = 1;
+    private static final int ARRET_SYSTEM = 0;
+    private static final int NOMBRE_PAYS_RENFORTS = 3;
+    private static final int RENFORTS = 1;
 
     public SystemeRisk() {
     }
@@ -66,8 +82,8 @@ public class SystemeRisk {
             }
 
             try {
-                if (nbJoueur > (etats.length - 1) || nbJoueur <= 0) {
-                    throw new IllegalArgumentException("Le nombre de maximum de joueurs est de " + (etats.length - 1) + ".");
+                if (nbJoueur > (etats.length - REDUCTION_PAYS_NEUTRE) || nbJoueur <= BORNE_JOUEUR_MINIMAL) {
+                    throw new IllegalArgumentException("Le nombre de maximum de joueurs est de " + (etats.length - REDUCTION_PAYS_NEUTRE) + ".");
 
                 } else {
 
@@ -79,7 +95,7 @@ public class SystemeRisk {
 
                             System.out.println("Dans quel pays voulez vous commencer ? : ");
                             afficherListe(maCarte);
-                            int choix = -1;
+                            int choix = INITIALISATION_CHOIX;
                             try {
                                 choix = Integer.parseInt(scanner.nextLine().trim());
                             } catch (NumberFormatException e) {
@@ -138,20 +154,20 @@ public class SystemeRisk {
             File dir = new File(dossier);
             File[] fichiers = dir.listFiles((d, name) -> name.endsWith(".ser"));
 
-            if (fichiers == null || fichiers.length == 0) {
+            if (fichiers == null || fichiers.length == LONGUEUR_NOM_FICHIER) {
                 System.out.println("Aucun fichier de réseau (.ser) trouvé dans " + dossier);
                 return;
             }
 
             System.out.println("=== Fichiers de réseaux disponibles ===");
             for (int i = 0; i < fichiers.length; i++) {
-                System.out.println((i + 1) + ". " + fichiers[i].getName());
+                System.out.println((i + COMPTEUR_CHOIX) + ". " + fichiers[i].getName());
             }
 
             // 2. Demander le choix à l'utilisateur
             System.out.print("\nQuel fichier voulez-vous charger ? (entrez le numéro) : ");
             int choix = scanner.nextInt();
-            String nomFichierSelectionne = fichiers[choix - 1].getPath();
+            String nomFichierSelectionne = fichiers[choix - COMPTEUR_CHOIX].getPath();
 
             // 3. Charger et afficher
             Carte reseauALire = Carte.charger(nomFichierSelectionne);
@@ -197,12 +213,12 @@ public class SystemeRisk {
     public Territoire choixPays(int choix, Carte maCarte) {
         List<Territoire> territoires = new ArrayList<>(maCarte.getConnexions().keySet());
 
-        if (choix < 1 || choix > territoires.size()) {
+        if (choix < COMPTEUR_CHOIX || choix > territoires.size()) {
             System.out.println("Choix invalide.");
             return null;
         }
 
-        Territoire territoireChoisi = territoires.get(choix - 1);
+        Territoire territoireChoisi = territoires.get(choix - COMPTEUR_CHOIX);
 
         System.out.println("Vous avez choisi " + territoireChoisi.getNom() + ".");
 
@@ -235,7 +251,7 @@ public class SystemeRisk {
 
         do {
 
-            if (action == 1) {
+            if (action == ACTION1) {
 
 
                 afficherListe(maCarte);
@@ -275,8 +291,14 @@ public class SystemeRisk {
                     }
                     try {
                         if (defendant != null && attaquant != null) {
-                            maCarte.attaquer(attaquant, defendant);
-                            serrure3 = false;
+                            int maxAttaque = attaquant.getnBInfanterie() - REDUCTION_INFANTERIE;
+                            if (maxAttaque < BORNE_INFANTERIE_MINIMAL) {
+                                System.out.println("Impossible d'attaquer : il faut au moins 2 troupes sur le pays.");
+                            } else {
+                                int nb = demanderNombreTroupes("Combien de troupes pour l'attaque ?", BORNE_INFANTERIE_MINIMAL, maxAttaque);
+                                maCarte.attaquer(attaquant, defendant, nb);
+                                serrure3 = false;
+                            }
                         } else {
                             throw new IllegalArgumentException("L'attaque a échoué, veuillez réessayer.");
                         }
@@ -288,7 +310,7 @@ public class SystemeRisk {
 
 
             }
-            if (action == 2) {
+            if (action == ACTION2) {
 
                 afficherListe(maCarte);
                 System.out.println("Quel pays voulez-vous utiliser pour receveur ?");
@@ -332,10 +354,16 @@ public class SystemeRisk {
                     }
                     try {
                         if (envoyeur != null && receveur != null) {
-                            maCarte.transferer( envoyeur, receveur);
-                            serrure3 = false;
+                            int maxTransfert = envoyeur.getnBInfanterie() - REDUCTION_INFANTERIE;
+                            if (maxTransfert < BORNE_INFANTERIE_MINIMAL) {
+                                System.out.println("Pas assez de troupes pour un transfert.");
+                            } else {
+                                int nb = demanderNombreTroupes("Combien de troupes transférer ?", BORNE_INFANTERIE_MINIMAL, maxTransfert);
+                                maCarte.transferer(envoyeur, receveur, nb);
+                                serrure3 = false;
+                            }
                         } else {
-                            throw new IllegalArgumentException("L'attaque a échoué, veuillez réessayer.");
+                            throw new IllegalArgumentException("Le transfer a échoué, veuillez réessayer.");
                         }
 
                     } catch (IllegalArgumentException e) {
@@ -345,17 +373,16 @@ public class SystemeRisk {
                 }
 
 
-
             }
-            if(action == 3){
+            if (action == ACTION3) {
                 System.out.println("Le tour est passé...");
                 serrure3 = false;
             }
-            if(action == 4){
+            if (action == ACTION4) {
                 System.out.println("Quel nom voulez vous ?");
                 String nom = scanner.nextLine().trim();
-                maCarte.sauvegarder("Risk/src/donnees/map_europe_" + nom.trim()  +" .ser");
-                System.exit(0);
+                maCarte.sauvegarder("Risk/src/donnees/map_europe_" + nom.trim() + ".ser");
+                System.exit(ARRET_SYSTEM);
             }
         } while (serrure3);
     }
@@ -376,31 +403,44 @@ public class SystemeRisk {
 
 
         do {
+            boolean serrure1 = true;
+
+
             for (int i = 0; i < nbJoueur; i++) {
-                afficheActionJoueur(i);
-                int choix = -1;
-                try {
-                    choix = Integer.parseInt(scanner.nextLine().trim());
-                } catch (NumberFormatException e) {
-                    System.out.println("Vous devez mettre un nombre.");
-                }
+                renfortAleatoire(maCarte, i);
 
-                try {
-                    if (choix > 4 || choix <= 0) {
-                        throw new IllegalArgumentException("Vous devez choisir un des choix.");
+                do {
 
-                    } else {
-                        actionJoueur(choix);
-                        choixAction(choix, maCarte, i);
+
+                    afficheActionJoueur(i);
+                    int choix = -1;
+                    try {
+                        choix = Integer.parseInt(scanner.nextLine().trim());
+                    } catch (NumberFormatException e) {
+                        System.out.println("Vous devez mettre un nombre.");
                     }
-                } catch (IllegalArgumentException e) {
-                    System.out.println(e.getMessage());
-                }
+
+                    try {
+                        if (choix > TOUS_LES_ACTIONS || choix <= AUCUNEACTION) {
+                            throw new IllegalArgumentException("Vous devez choisir un des choix.");
+
+                        } else {
+                            actionJoueur(choix);
+                            choixAction(choix, maCarte, i);
+                            serrure1 = false;
+                        }
+                    } catch (IllegalArgumentException e) {
+                        System.out.println(e.getMessage());
+                    }
+                } while (serrure1);
 
             }
 
 
-        } while (!victoire());
+        } while (!victoire(maCarte));
+
+
+        System.out.println("Fin de partie");
     }
 
     /**
@@ -474,5 +514,79 @@ public class SystemeRisk {
 
     }
 
+    //IA
+
+    public int demanderNombreTroupes(String message, int min, int max) {
+        int troupes = -1;
+        while (troupes < min || troupes > max) {
+            System.out.println(message + " (Entre " + min + " et " + max + ") :");
+            try {
+                troupes = Integer.parseInt(scanner.nextLine().trim());
+
+                if (troupes < min) {
+                    System.out.println("Erreur : Le minimum est de " + min + ".");
+                } else if (troupes > max) {
+                    System.out.println("Erreur : Vous n'avez que " + max + " troupes disponibles.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Erreur : Veuillez entrer un nombre entier (pas de lettres).");
+            }
+        }
+        return troupes;
+    }
+    //IA
+
+    public void renfortAleatoire(Carte maCarte, int indexJoueur) {
+        Etat nomJoueur = etats[indexJoueur];
+        List<Territoire> sesPays = new ArrayList<>();
+        for (Territoire t : maCarte.getConnexions().keySet()) {
+            if (t.getEtat().equals(nomJoueur)) {
+                sesPays.add(t);
+            }
+        }
+
+        if (!sesPays.isEmpty()) {
+            //IA
+            // Calcul du bonus (ex: nombre de pays / 3, minimum 3)
+
+            int bonus = Math.max(NOMBRE_PAYS_RENFORTS, sesPays.size() / NOMBRE_PAYS_RENFORTS);
+
+            System.out.println("\n>>> Phase de renfort pour " + nomJoueur + " !");
+            System.out.println(">>> " + bonus + " troupes distribuées aléatoirement.");
+
+            for (int i = 0; i < bonus; i++) {
+                // Choix d'un index au hasard entre 0 et la taille de la liste - 1
+                int indexHasard = (int) (Math.random() * sesPays.size());
+                Territoire t = sesPays.get(indexHasard);
+
+                // On ajoute 1 troupe au pays tiré au sort
+                t.setnBInfanterie(t.getnBInfanterie() + RENFORTS);
+            }
+            //IA
+        }
+    }
+
+
+    public boolean victoire(Carte maCarte) {
+        if (maCarte.getConnexions().isEmpty()) return false;
+
+        //IA
+        Etat joueur = maCarte.getConnexions().keySet().iterator().next().getEtat();
+        //IA
+
+        for (Territoire t : maCarte.getConnexions().keySet()) {
+            if (!t.getEtat().equals(joueur)) {
+                return false;
+            }
+        }
+
+
+        System.out.println("LE JOUEUR " + joueur + " A GAGNÉ !");
+
+
+        return true;
+
+
+    }
 
 }
