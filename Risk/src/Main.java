@@ -74,6 +74,7 @@ public class Main {
         try {
             maCarte.lierTerritoire(canada, france);
             maCarte.lierTerritoire(canada, usa);
+            maCarte.lierTerritoire(canada,royaumeUni);
             maCarte.lierTerritoire(usa, france);
             maCarte.lierTerritoire(usa, royaumeUni);
             maCarte.lierTerritoire(france, espagne);
@@ -92,6 +93,7 @@ public class Main {
             maCarte.lierTerritoire(russie, serbie);
             maCarte.lierTerritoire(russie, chine);
             maCarte.lierTerritoire(chine, serbie);
+            maCarte.lierTerritoire(chine,italie);
             maCarte.lierTerritoire(espagne, italie);
 
             // Sauvegarde de la carte initiale
@@ -108,9 +110,7 @@ public class Main {
             //IA
 
 
-
             system.gameOn(maCarte, appInstance);
-
 
 
         } catch (Exception e) {
